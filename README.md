@@ -20,6 +20,8 @@ Rough Breakdown of Tasks
 * Create github coop repo
 	* Have individual branches
 * Create basic files and formatting
+	* front-end will need to create basic layout for back-end to be able to test logic
+	* back-end will need to add references to script sheets and external libraries/databases
 * Start working on css styling (bootstrap 3 or 4? Additional bootswatch?)
 * Learning api’s 
 	* Finding a new library/technology to implement
