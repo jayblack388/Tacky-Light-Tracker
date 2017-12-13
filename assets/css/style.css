@@ -1,5 +1,5 @@
 body {
-	background-color: #e0e0e0
+	background-color: #e0e0e0;
 }
 .jumbotron {
 	background: url("christmaslights.jpg")
@@ -12,25 +12,39 @@ body {
 	height: 350px;
 	background-position: 50% 25%;
 	margin: 0px;
+	border-radius: 0px;
 }
 
 .jumbotron .display {
 	font-size:72px;
+	font-family: 'Sacramento', cursive;
 	text-align: center;
+	margin-top:110px;
+
 }
 
 .jumbotron .lead {
-	font-size:55px;
+	font-family: 'Josefin Slab', serif;
+	font-size:45px;
 	text-align:center;
 }
 
 .navbar {
-	background-color: #101b1d;
+	background-color: #22525e;
 } 
+
+.navbar-nav {
+/*	display: inline-block;*/
+}
 
 .nav-item {
 	background-color: #6fc8d8;
 	margin: 5px;
-	align-content: center;
 	border-radius: 4px;
+
+}
+
+.nav-link {
+	color: #ffffff !important;
+
 }
