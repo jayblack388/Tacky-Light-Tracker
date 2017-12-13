@@ -1,5 +1,5 @@
 let myJSON = JSON.stringify(myObj);
-localStorage.setItem("testJSON", myJSON);
+// localStorage.setItem("testJSON", myJSON);
 let myObj = {
 	location1: {
 		name: "1854 Featherstone Dr",
