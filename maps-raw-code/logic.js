@@ -14,6 +14,7 @@ const config = {
   let database = firebase.database();
   let mapDatabase = database.ref('mapData');
   let newMapData = mapDatabase.push();
+  let data = {};
 
 //$(document).ready(initMap())
 function initMap() {
@@ -55,11 +56,23 @@ function geocodeAddress(geocoder, resultsMap) {
           } else {
             alert('Geocode was not successful for the following reason: ' + status);
           }
-          newMapData.set({
-            markerObj: results 
+          console.log(results)
+          data = {
+            address: results[0].formatted_address,
+            lat: results[0].geometry.location.lat(),
+            lng: results[0].geometry.location.lng()
+            
+          }
+          console.log(results[0].geometry.location.lat());
+          console.log(results[0].geometry.location.lng());
+          database.ref().push({
+            mapData: data
           });
         });
 }
+// .done(function(response){
+// console.log(response)
+// })
 
 //function for creating userMarkerInput
 function placeMarkerAndPanTo(latLng, map) {
