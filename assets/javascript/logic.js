@@ -20,6 +20,19 @@ const apiKey = "AIzaSyBkUtokw3tHbQTwMkXpIapkw-us_Ln1RKE"
 
 
 
+// AJAX call for open weather API
+var apiKey = " f7df47b99b23eb3b8a448faa4293549d";
+var cityCode = "6254928";
+var queryURL = "api.openweathermap.org/data/2.5/forecast?id=" + cityCode + "&APPID=" + apiKey
+
+$ajax({
+  url: queryURL,
+  method: "GET"
+}).done(function(data){
+  console.log(data)
+  console.log(data.city)
+});
+
 
 
 /*
