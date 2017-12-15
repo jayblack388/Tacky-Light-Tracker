@@ -9,25 +9,13 @@
        * element that contains the map. */
       #map {
         height: 100%;
+        width: 60%;
       }
       /* Optional: Makes the sample page fill the window. */
       html, body {
         height: 100%;
         margin: 0;
         padding: 0;
-      }
-      #floating-panel {
-        position: absolute;
-        top: 10px;
-        left: 25%;
-        z-index: 5;
-        background-color: #fff;
-        padding: 5px;
-        border: 1px solid #999;
-        text-align: center;
-        font-family: 'Roboto','sans-serif';
-        line-height: 30px;
-        padding-left: 10px;
       }
     </style>
 	<title>Tacky Lights Tracker</title>
@@ -92,34 +80,14 @@
 			</ul>
 		</div>
 	</nav>
+</div>	
   <div id="floating-panel">
       <input id="address" type="textbox" value="Richmond, VA">
       <input id="geosubmit" type="button" value="Geocode">
   </div>
     <div id="map"></div>
     <div id="results"></div>
-</div>  
-<!-- Blocking Out this Code for merge conflict
-  <!--Google Map API Div-->
-	  <div class="row">
-		  <div class="col-sm" id="map"></div>
-		  <div class="row">	
-			  <div class="col-sm" id="address"></div>	
-			  <div class="col-sm" id="home-image"></div>
-		  </div>
-  <!--Weather API Div-->		
-		  <div class="row">
-			  <div class="col-sm" id="weather"></div>
-		  </div>
-  <!--Spotify API Div (if needed)-->
-		  <div class="row">
-			  <div class="col-sm" id="spotify"></div>
-		  </div>				
-	  </div>
-	  <div class="row">
 
-    </div> 
-  -->
 
 <!-- Custom Scripts -->
 	<script 
@@ -130,3 +98,25 @@
 	    </script>	  
 </body>
 </html>
+<!--Blocking Out this Code for merge conflict
+</div>  
+   
+  <div class="row">
+    <div class="col-sm" id="map"></div>
+    <div class="row"> 
+    <div class="col-sm" id="address"></div> 
+    <div class="col-sm" id="home-image"></div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm" id="weather"></div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm" id="spotify"></div>
+  </div>        
+</div>
+<div class="row">
+
+</div> 
+   -->

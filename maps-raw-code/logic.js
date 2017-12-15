@@ -106,3 +106,26 @@ function placeMarkerAndPanTo(latLng, map) {
 // }
 // let myJSON = JSON.stringify(myObj);
 // localStorage.setItem("testJSON", myJSON);
+
+// </div>  
+// <!-- Blocking Out this Code for merge conflict
+//   <!--Google Map API Div-->
+//     <div class="row">
+//       <div class="col-sm" id="map"></div>
+//       <div class="row"> 
+//         <div class="col-sm" id="address"></div> 
+//         <div class="col-sm" id="home-image"></div>
+//       </div>
+//   <!--Weather API Div-->    
+//       <div class="row">
+//         <div class="col-sm" id="weather"></div>
+//       </div>
+//   <!--Spotify API Div (if needed)-->
+//       <div class="row">
+//         <div class="col-sm" id="spotify"></div>
+//       </div>        
+//     </div>
+//     <div class="row">
+
+//     </div> 
+//   -->
