@@ -8,12 +8,10 @@ const config = {
     messagingSenderId: "814831670605"
   };
   firebase.initializeApp(config);
-// Create variables so we don't have to constantly write firebase.BLANK()
-const storage = firebase.storage();
-const auth = firebase.authentication();
-// Google maps API Key
 
+// Google maps API Key
 const apiKey = "AIzaSyBkUtokw3tHbQTwMkXpIapkw-us_Ln1RKE"
+
 let database = firebase.database();
 let mapDatabase = database.ref('mapData');
 // Data is an object to push into Firebase
@@ -80,7 +78,7 @@ function placeMarkerAndPanTo(latLng, map) {
 // https://github.com/firebase/firebaseui-web
 
 
-
+/*
 // AJAX call for open weather API
 var apiID = " f7df47b99b23eb3b8a448faa4293549d";
 var cityCode = "6254928";
@@ -93,6 +91,4 @@ $ajax({
   console.log(response)
   console.log(response.city)
 });
-
-
-
+*/
