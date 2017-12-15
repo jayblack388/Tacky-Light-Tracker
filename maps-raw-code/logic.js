@@ -13,18 +13,21 @@ const config = {
   firebase.initializeApp(config);
   let database = firebase.database();
   let mapDatabase = database.ref('mapData');
-  let newMapData = mapDatabase.push();
   let data = {};
+  let map;
+  let marker;
+  let infowindow;
+  let messagewindow;
 
 //$(document).ready(initMap())
 function initMap() {
-    var richmond = {lat: 37.540, lng: -77.436};
-    var map = new google.maps.Map(document.getElementById('map'), {
+    let richmond = {lat: 37.540, lng: -77.436};
+    map = new google.maps.Map(document.getElementById('map'), {
       zoom: 15,
       center: richmond
     });
-    var geocoder = new google.maps.Geocoder();
-    document.getElementById('submit').addEventListener('click',function () {
+    let geocoder = new google.maps.Geocoder();
+    document.getElementById('geosubmit').addEventListener('click',function () {
       geocodeAddress (geocoder, map);
     })
     var marker = new google.maps.Marker({

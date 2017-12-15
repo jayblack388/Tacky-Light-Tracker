@@ -7,7 +7,7 @@
        /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
       #map {
-        height: 80%;
+        height: 100%;
       }
       /* Optional: Makes the sample page fill the window. */
       html, body {
@@ -34,10 +34,22 @@
   <body>
     <div id="floating-panel">
       <input id="address" type="textbox" value="Richmond, VA">
-      <input id="submit" type="button" value="Geocode">
+      <input id="geosubmit" type="button" value="Geocode">
     </div>
     <div id="map"></div>
     <div id="results"></div>
+    <div id="form">
+      <table>
+      <tr><td>Name:</td> <td><input type='text' id='name'/> </td> </tr>
+      <tr><td>Address:</td> <td><input type='text' id='address'/> </td> </tr>
+      <tr><td>Type:</td> <td><select id='type'> +
+                 <option value='bar' SELECTED>bar</option>
+                 <option value='restaurant'>restaurant</option>
+                 </select> </td></tr>
+                 <tr><td></td><td><input type='button' value='Save' onclick='saveData()'/></td></tr>
+      </table>
+    </div>
+    <div id="message">Location saved</div>
 
 
     <script
