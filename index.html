@@ -4,6 +4,32 @@
 	<!-- Pretty sure this is a required meta tag for google maps, I'm sure we can manipulate and experiment with it as needed -->
 	<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
+    <style>
+       /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 80%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #floating-panel {
+        position: absolute;
+        top: 10px;
+        left: 25%;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+        text-align: center;
+        font-family: 'Roboto','sans-serif';
+        line-height: 30px;
+        padding-left: 10px;
+      }
+    </style>
 	<title>Tacky Lights Tracker</title>
 	
 	<!-- Script Addons -->
@@ -31,6 +57,7 @@
 
 </head>
 <body>
+
 <!--Jumbotron-->
 <div class="container-fluid">	
 	<div class="jumbotron">
@@ -65,29 +92,41 @@
 			</ul>
 		</div>
 	</nav>
+  
+  <div id="floating-panel">
+      <input id="address" type="textbox" value="Richmond, VA">
+      <input id="geosubmit" type="button" value="Geocode">
+    </div>
+    <div id="map"></div>
+    <div id="results"></div>
+<!-- Blocking Out this Code for merge conflict
+  <!--Google Map API Div-->
+	  <div class="row">
+		  <div class="col-sm" id="map"></div>
+		  <div class="row">	
+			  <div class="col-sm" id="address"></div>	
+			  <div class="col-sm" id="home-image"></div>
+		  </div>
+  <!--Weather API Div-->		
+		  <div class="row">
+			  <div class="col-sm" id="weather"></div>
+		  </div>
+  <!--Spotify API Div (if needed)-->
+		  <div class="row">
+			  <div class="col-sm" id="spotify"></div>
+		  </div>				
+	  </div>
+	  <div class="row">
 
-<!--Google Map API Div-->
-	<div class="row">
-		<div class="col-sm" id="map"></div>
-		<div class="row">	
-			<div class="col-sm" id="address"></div>	
-			<div class="col-sm" id="home-image"></div>
-		</div>
-<!--Weather API Div-->		
-		<div class="row">
-			<div class="col-sm" id="weather"></div>
-		</div>
-<!--Spotify API Div (if needed)-->
-		<div class="row">
-			<div class="col-sm" id="spotify"></div>
-		</div>				
-	</div>
-	<div class="row">
-
-</div>
+    </div> 
+  -->
 
 <!-- Custom Scripts -->
 	<script 
 	  src="./assets/javascript/logic.js"></script>
+<!-- Google Maps Call -->
+	<script async defer
+	    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBkUtokw3tHbQTwMkXpIapkw-us_Ln1RKE&callback=initMap">
+	    </script>	  
 </body>
 </html>
