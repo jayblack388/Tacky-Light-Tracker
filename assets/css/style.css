@@ -2,7 +2,7 @@ body {
 	background-color: #e0e0e0;
 }
 .jumbotron {
-	background: url("christmaslights.jpg")
+	background: url("./images/christmaslights.jpg")
 	no-repeat;
 		width: 100%;
 		height: 100%;
@@ -20,7 +20,6 @@ body {
 	font-family: 'Sacramento', cursive;
 	text-align: center;
 	margin-top:110px;
-
 }
 
 .jumbotron .lead {
@@ -33,18 +32,12 @@ body {
 	background-color: #22525e;
 } 
 
-.navbar-nav {
-/*	display: inline-block;*/
-}
-
 .nav-item {
 	background-color: #6fc8d8;
 	margin: 5px;
 	border-radius: 4px;
-
 }
 
 .nav-link {
 	color: #ffffff !important;
-
 }
