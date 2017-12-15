@@ -15,7 +15,7 @@ body {
 	border-radius: 0px;
 }
 
-.jumbotron .display {
+.jumbotron #display {
 	font-size:72px;
 	font-family: 'Sacramento', cursive;
 	text-align: center;
@@ -32,25 +32,33 @@ body {
 	background-color: #22525e;
 } 
 
+.navbar-brand {
+	font-family: 'Sacramento', cursive;
+	font-size: 32px;
+	color: #ffffff !important;
+}
+
 .nav-item {
-	background-color: #6fc8d8;
-	margin: 5px;
+	margin: 10px;
 	border-radius: 4px;
 }
 
 .nav-link {
-	color: #ffffff !important;
+	color: #e0e0e0 !important;
 }
+#map {
+	margin-left:15px;
+}
+
 #floating-panel {
-        position: absolute;
-        top: 10px;
-        left: 25%;
-        z-index: 5;
-        background-color: #fff;
-        padding: 5px;
-        border: 1px solid #999;
-        text-align: center;
-        font-family: 'Roboto','sans-serif';
-        line-height: 30px;
-        padding-left: 10px;
-      }
+    top: 10px;
+    left: 25%;
+    width:45%;
+    z-index: 5;
+    background-color: #22525e;
+    padding: 5px;
+    text-align: center;
+    font-family: 'Josefin Slab', serif !important;
+    line-height: 30px;
+    margin-left: 15px;
+}
