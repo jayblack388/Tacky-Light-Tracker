@@ -1,3 +1,6 @@
+// Google maps API Key
+const apiKey = "AIzaSyBkUtokw3tHbQTwMkXpIapkw-us_Ln1RKE"
+
 // Firebase Reference
 const config = {
     apiKey: "AIzaSyAOD57dd2jJshQdrBRFnXyvp2M__Q0MEec",
@@ -8,75 +11,100 @@ const config = {
     messagingSenderId: "814831670605"
   };
   firebase.initializeApp(config);
+  let database = firebase.database();
+  let mapDatabase = database.ref('mapData');
+  let data = {};
+  let map;
+  let marker;
+  let infowindow;
+  let messagewindow;
+  let address;
+  let geocoder;
 
-// Google maps API Key
-const apiKey = "AIzaSyBkUtokw3tHbQTwMkXpIapkw-us_Ln1RKE"
-
-let database = firebase.database();
-let mapDatabase = database.ref('mapData');
-// Data is an object to push into Firebase
-let data = {};
 function initMap() {
     let richmond = {lat: 37.540, lng: -77.436};
     map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 15,
+      zoom: 10,
       center: richmond
     });
-    let geocoder = new google.maps.Geocoder();
+
+    geocoder = new google.maps.Geocoder();
     document.getElementById('geosubmit').addEventListener('click',function () {
       geocodeAddress (geocoder, map);
-    })
-    let marker = new google.maps.Marker({
+    });
+    
+    marker = new google.maps.Marker({
       position: richmond,
       map: map
     });
-    // event listener for user clicks/markers
-    map.addListener('click', function(e) {
-    placeMarkerAndPanTo(e.latLng, map);
+
+    infowindow = new google.maps.InfoWindow({
+          content: `  
+          <div id="form">
+          <table>
+            <tr><td>Name:</td> <td><input type='text' id='name'/></td></tr>
+            <tr><td>Address:</td> <td><input type='text' id='formaddress'/></td></tr>
+            <tr><td>Type:</td> <td><select id='type'> +
+                 <option value='bar' SELECTED>bar</option>
+                 <option value='restaurant'>restaurant</option>
+                 </select> </td></tr>
+                 <tr><td></td><td><input type='button' value='Save' onclick='saveData()'/></td></tr>
+          </table>
+          </div>`
+        });
+
+    messagewindow = new google.maps.InfoWindow({
+      content: `<div id="message">Location saved</div>`
+    });
+
+    google.maps.event.addListener(map, 'click', function(event) {
+      marker = new google.maps.Marker({
+        position: event.latLng,
+        map: map
+      });
+
+      google.maps.event.addListener(marker, 'click', function() {
+        infowindow.open(map, marker);
+      });
+      map.panTo(latLng);
     });
 };
+
 function geocodeAddress(geocoder, resultsMap) {
-    let address = document.getElementById('address').value;
-    geocoder.geocode({'address': address}, function(results, status) {
-      if (status === 'OK') {
-        resultsMap.setCenter(results[0].geometry.location);
-        let marker = new google.maps.Marker({
-          map: resultsMap,
-          position: results[0].geometry.location
+        address = document.getElementById('address').value;
+        geocoder.geocode({'address': address}, function(results, status) {
+          if (status === 'OK') {
+            resultsMap.setCenter(results[0].geometry.location);
+            marker = new google.maps.Marker({
+              map: resultsMap,
+              position: results[0].geometry.location
+            });
+            address = results[0].formatted_address;
+            console.log(address)
+
+            google.maps.event.addListener(marker, 'click', function(){
+              infowindow.open(map, marker);
+              $('#formaddress').attr("value", address);
+            });
+          } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+          }
+          console.log(results)
         });
-    } else {
-      alert('Geocode was not successful for the following reason: ' + status);
-    }
-    console.log(results);
+};
 
-    // Sets data to our Data object and then pushes it to Firebase
-    data = {
-      address: results[0].formatted_address,
-      lat: results[0].geometry.location.lat(),
-      lng: results[0].geometry.location.lng()
-    }
+/*data = {
+            address: results[0].formatted_address,
+            lat: results[0].geometry.location.lat(),
+            lng: results[0].geometry.location.lng(),
+            timestamp: firebase.database.ServerValue.TIMESTAMP
+          }
 
-    console.log(results[0].geometry.location.lat());
-    console.log(results[0].geometry.location.lng());
-
-    database.ref().push({
-      mapData: data
-    });
-
-  });
-}
-//function for creating userMarkerInput
-function placeMarkerAndPanTo(latLng, map) {
-  var marker = new google.maps.Marker({
-    position: latLng,
-    map: map
-  });
-  // OPTIONAL used to pan to the new marker on init
-  map.panTo(latLng);
-}
-// It looks like we need to look into the FirebaseUI Auth module within Firebase (It looks like it is resonably manageable to drop in Google/FB logins)
-// https://github.com/firebase/firebaseui-web
-
+          console.log(results[0].geometry.location.lat());
+          console.log(results[0].geometry.location.lng());
+          database.ref().push({
+            mapData: data
+          }); */
 
 /*
 // AJAX call for open weather API

@@ -18,43 +18,73 @@ const config = {
   let marker;
   let infowindow;
   let messagewindow;
+  let address;
+  let geocoder;
 
-//$(document).ready(initMap())
 function initMap() {
     let richmond = {lat: 37.540, lng: -77.436};
     map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 15,
+      zoom: 10,
       center: richmond
     });
-    let geocoder = new google.maps.Geocoder();
+
+    geocoder = new google.maps.Geocoder();
     document.getElementById('geosubmit').addEventListener('click',function () {
       geocodeAddress (geocoder, map);
-    })
-    var marker = new google.maps.Marker({
+    });
+    
+    marker = new google.maps.Marker({
       position: richmond,
       map: map
     });
-    // event listener for user clicks/markers
-    map.addListener('click', function(e) {
-    placeMarkerAndPanTo(e.latLng, map);
+
+    infowindow = new google.maps.InfoWindow({
+          content: `  
+          <div id="form">
+          <table>
+            <tr><td>Name:</td> <td><input type='text' id='name'/></td></tr>
+            <tr><td>Address:</td> <td><input type='text' id='formaddress'/></td></tr>
+            <tr><td>Type:</td> <td><select id='type'> +
+                 <option value='bar' SELECTED>bar</option>
+                 <option value='restaurant'>restaurant</option>
+                 </select> </td></tr>
+                 <tr><td></td><td><input type='button' value='Save' onclick='saveData()'/></td></tr>
+          </table>
+          </div>`
+        });
+
+    messagewindow = new google.maps.InfoWindow({
+      content: `<div id="message">Location saved</div>`
     });
-    // event listener for center_changed
-    // map.addListener('center_changed', function() {
-    // // 3 seconds after the center of the map has changed, pan back to the
-    // // marker.
-    //   window.setTimeout(function() {
-    //     map.panTo(marker.getPosition());
-    //   }, 3000);
-    // });
+
+    google.maps.event.addListener(map, 'click', function(event) {
+      marker = new google.maps.Marker({
+        position: event.latLng,
+        map: map
+      });
+
+      google.maps.event.addListener(marker, 'click', function() {
+        infowindow.open(map, marker);
+      });
+      map.panTo(latLng);
+    });
 };
+
 function geocodeAddress(geocoder, resultsMap) {
-        var address = document.getElementById('address').value;
+        address = document.getElementById('address').value;
         geocoder.geocode({'address': address}, function(results, status) {
           if (status === 'OK') {
             resultsMap.setCenter(results[0].geometry.location);
-            var marker = new google.maps.Marker({
+            marker = new google.maps.Marker({
               map: resultsMap,
               position: results[0].geometry.location
+            });
+            address = results[0].formatted_address;
+            console.log(address)
+
+            google.maps.event.addListener(marker, 'click', function(){
+              infowindow.open(map, marker);
+              $('#formaddress').attr("value", address);
             });
           } else {
             alert('Geocode was not successful for the following reason: ' + status);
@@ -63,69 +93,27 @@ function geocodeAddress(geocoder, resultsMap) {
           data = {
             address: results[0].formatted_address,
             lat: results[0].geometry.location.lat(),
-            lng: results[0].geometry.location.lng()
-            
+            lng: results[0].geometry.location.lng(),
+            timestamp: firebase.database.ServerValue.TIMESTAMP
+          };
+        });
+        addToFirebase(data);
+};
+
+function addToFirebase(data) {
+  mapDatabase.push({
+    locationData: data
+  });
+}
+/*data = {
+            address: results[0].formatted_address,
+            lat: results[0].geometry.location.lat(),
+            lng: results[0].geometry.location.lng(),
+            timestamp: firebase.database.ServerValue.TIMESTAMP
           }
+
           console.log(results[0].geometry.location.lat());
           console.log(results[0].geometry.location.lng());
           database.ref().push({
             mapData: data
-          });
-        });
-}
-// .done(function(response){
-// console.log(response)
-// })
-
-//function for creating userMarkerInput
-function placeMarkerAndPanTo(latLng, map) {
-  var marker = new google.maps.Marker({
-    position: latLng,
-    map: map
-  });
-  // OPTIONAL used to pan to the new marker on init
-  map.panTo(latLng);
-}
-// Attaches an info window to a marker with the provided message. When the
-// marker is clicked, the info window will open with the secret message.
-// function attachMessage(marker, secretMessage) {
-//   var infowindow = new google.maps.InfoWindow({
-//     content: secretMessage
-//   });
-
-//   marker.addListener('click', function() {
-//     infowindow.open(marker.get('map'), marker);
-//   });
-// }
-// let myObj = {
-//   name: "1854 Featherstone Dr",
-//   address: "1854 Featherstone Drive, Midlothian, VA 23113",
-//   description: "Visible from Huguenot Road, Neighbors also have lights",
-//   latitude: 37.51794,
-//   longitude: -77.61679
-// }
-// let myJSON = JSON.stringify(myObj);
-// localStorage.setItem("testJSON", myJSON);
-
-// </div>  
-// <!-- Blocking Out this Code for merge conflict
-//   <!--Google Map API Div-->
-//     <div class="row">
-//       <div class="col-sm" id="map"></div>
-//       <div class="row"> 
-//         <div class="col-sm" id="address"></div> 
-//         <div class="col-sm" id="home-image"></div>
-//       </div>
-//   <!--Weather API Div-->    
-//       <div class="row">
-//         <div class="col-sm" id="weather"></div>
-//       </div>
-//   <!--Spotify API Div (if needed)-->
-//       <div class="row">
-//         <div class="col-sm" id="spotify"></div>
-//       </div>        
-//     </div>
-//     <div class="row">
-
-//     </div> 
-//   -->
+          }); */
