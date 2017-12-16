@@ -48,7 +48,7 @@ function initMap() {
                  <option value='bar' SELECTED>bar</option>
                  <option value='restaurant'>restaurant</option>
                  </select> </td></tr>
-                 <tr><td></td><td><input type='button' value='Save' onclick='saveData()'/></td></tr>
+                 <tr><td></td><td><input type='button' value='Save'/></td></tr>
           </table>
           </div>`
         });
@@ -66,7 +66,6 @@ function initMap() {
       google.maps.event.addListener(marker, 'click', function() {
         infowindow.open(map, marker);
       });
-      map.panTo(latLng);
     });
 };
 
@@ -96,24 +95,21 @@ function geocodeAddress(geocoder, resultsMap) {
             lng: results[0].geometry.location.lng(),
             timestamp: firebase.database.ServerValue.TIMESTAMP
           };
+          mapDatabase.push({
+            locationData: data
+          })
         });
-        addToFirebase(data);
 };
 
-function addToFirebase(data) {
-  mapDatabase.push({
-    locationData: data
-  });
-}
-/*data = {
-            address: results[0].formatted_address,
-            lat: results[0].geometry.location.lat(),
-            lng: results[0].geometry.location.lng(),
-            timestamp: firebase.database.ServerValue.TIMESTAMP
-          }
+mapDatabase.on('child_added', function(snapshot){
+  let pos = {
+    lat: snapshot.val().locationData.lat,
+    lng: snapshot.val().locationData.lng
+  }
+  marker = new google.maps.Marker({
+    map: map,
+    position: pos
+  })
 
-          console.log(results[0].geometry.location.lat());
-          console.log(results[0].geometry.location.lng());
-          database.ref().push({
-            mapData: data
-          }); */
+  console.log(snapshot.val().locationData.address)
+});

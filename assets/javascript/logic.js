@@ -20,12 +20,12 @@ const config = {
   let messagewindow;
   let address;
   let geocoder;
+  let pos = {};
 
 function initMap() {
-    let richmond = {lat: 37.540, lng: -77.436};
     map = new google.maps.Map(document.getElementById('map'), {
       zoom: 10,
-      center: richmond
+      center: pos
     });
 
     geocoder = new google.maps.Geocoder();
@@ -34,21 +34,49 @@ function initMap() {
     });
     
     marker = new google.maps.Marker({
-      position: richmond,
+      position: pos,
       map: map
     });
+
+    infoWindow = new google.maps.InfoWindow;
+      // Try HTML5 geolocation.
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+         pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+          infoWindow.setPosition(pos);
+          infoWindow.setContent('Location found.');
+          infoWindow.open(map);
+          map.setCenter(pos);
+        }, function() {
+          handleLocationError(true, infoWindow, map.getCenter());
+        });
+      } else {
+        // Browser doesn't support Geolocation
+        handleLocationError(false, infoWindow, map.getCenter());
+      }
+    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+                              'Error: The Geolocation service failed.' :
+                              'Error: Your browser doesn\'t support geolocation.');
+        infoWindow.open(map);
+
+        let richmond = {lat: 37.540, lng: -77.436};
+                map = new google.maps.Map(document.getElementById('map'), {
+                  zoom: 15,
+                  center: richmond
+                });
+      }  
 
     infowindow = new google.maps.InfoWindow({
           content: `  
           <div id="form">
           <table>
-            <tr><td>Name:</td> <td><input type='text' id='name'/></td></tr>
             <tr><td>Address:</td> <td><input type='text' id='formaddress'/></td></tr>
-            <tr><td>Type:</td> <td><select id='type'> +
-                 <option value='bar' SELECTED>bar</option>
-                 <option value='restaurant'>restaurant</option>
-                 </select> </td></tr>
-                 <tr><td></td><td><input type='button' value='Save' onclick='saveData()'/></td></tr>
+            <tr><td></td><td><input type='button' value='Save'/></td></tr>
           </table>
           </div>`
         });
@@ -66,7 +94,6 @@ function initMap() {
       google.maps.event.addListener(marker, 'click', function() {
         infowindow.open(map, marker);
       });
-      map.panTo(latLng);
     });
 };
 
@@ -90,33 +117,67 @@ function geocodeAddress(geocoder, resultsMap) {
             alert('Geocode was not successful for the following reason: ' + status);
           }
           console.log(results)
-        });
+          data = {
+              address: results[0].formatted_address,
+              lat: results[0].geometry.location.lat(),
+              lng: results[0].geometry.location.lng(),
+              timestamp: firebase.database.ServerValue.TIMESTAMP
+            };
+            mapDatabase.push({
+              locationData: data
+            })
+          });
 };
 
-/*data = {
-            address: results[0].formatted_address,
-            lat: results[0].geometry.location.lat(),
-            lng: results[0].geometry.location.lng(),
-            timestamp: firebase.database.ServerValue.TIMESTAMP
-          }
+mapDatabase.on('child_added', function(snapshot){
+  pos = {
+    lat: snapshot.val().locationData.lat,
+    lng: snapshot.val().locationData.lng
+  }
+  marker = new google.maps.Marker({
+    map: map,
+    position: pos
+  })
 
-          console.log(results[0].geometry.location.lat());
-          console.log(results[0].geometry.location.lng());
-          database.ref().push({
-            mapData: data
-          }); */
-
-/*
-// AJAX call for open weather API
-var apiID = " f7df47b99b23eb3b8a448faa4293549d";
-var cityCode = "6254928";
-var queryURL = "api.openweathermap.org/data/2.5/forecast?id=" + cityCode + "&APPID=" + apiID
-
-$ajax({
-  url: queryURL,
-  method: "GET"
-}).done(function(response){
-  console.log(response)
-  console.log(response.city)
+  console.log(snapshot.val().locationData.address)
 });
-*/
+
+var weatherApiKey = "f7df47b99b23eb3b8a448faa4293549d";
+var cityZipCode = 23220;
+var queryURL = "https://api.openweathermap.org/data/2.5/weather?zip=" + cityZipCode + ",us&APPID=" + weatherApiKey;
+$.ajax({
+    url: queryURL,
+    data: {
+      units: 'imperial'
+    },
+    method: "GET"
+  }).done(function(response){
+    console.log(response)
+    console.log(response["name"]);
+
+    var weatherDiv = $("<div class = 'weatherWidget'>");
+
+    var cityName = response["name"];
+
+    var temperature = response["main"]["temp"];
+
+    var condition = response["weather"]["0"]["description"];
+
+    var conditionIconCall = response["weather"]["icon"];
+
+    var weatherImgUrl = "http://openweathermap.org/img/w/" + conditionIconCall + ".png";
+
+    var widgetConditionsIcon = $("<img>").attr("src", weatherImgUrl);
+
+    console.log("City Name: " + cityName + " | Temperature: " + temperature + " \xB0F");
+
+    var widgetTemp = $("<p>").text("Currently in " + cityName + ":" + temperature + " \xB0F");
+
+    var widgetConditions = $("<p>").text(widgetConditionsIcon + "  " + condition);
+
+    weatherDiv.append(widgetTemp);
+
+    weatherDiv.append(widgetConditions);
+
+    $("#weather").prepend(weatherDiv);
+  });
