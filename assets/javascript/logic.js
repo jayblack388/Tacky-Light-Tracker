@@ -163,7 +163,7 @@ $.ajax({
 
     var condition = response["weather"]["0"]["description"];
 
-    var conditionIconCall = response["weather"]["icon"];
+    var conditionIconCall = response["weather"]['0']["icon"];
 
     var weatherImgUrl = "http://openweathermap.org/img/w/" + conditionIconCall + ".png";
 
@@ -173,11 +173,13 @@ $.ajax({
 
     var widgetTemp = $("<p>").text("Currently in " + cityName + ":" + temperature + " \xB0F");
 
-    var widgetConditions = $("<p>").text(widgetConditionsIcon + "  " + condition);
+    var widgetConditions = $("<p>").html(widgetConditionsIcon);
 
     weatherDiv.append(widgetTemp);
 
     weatherDiv.append(widgetConditions);
+
+    weatherDiv.append(" " + condition)
 
     $("#weather").prepend(weatherDiv);
   });
