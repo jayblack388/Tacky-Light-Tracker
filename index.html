@@ -8,8 +8,8 @@
        /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
       #map {
-        height: 100%;
-        width: 60%;
+        height: 50%;
+        width: 45%;
       }
       /* Optional: Makes the sample page fill the window. */
       html, body {
@@ -42,35 +42,28 @@
 		<link rel="stylesheet" href="./assets/css/style.css">
 		<!-- Goolge Fonts -->
 		<link href="https://fonts.googleapis.com/css?family=Josefin+Slab|Sacramento" rel="stylesheet">
+		<!--Animate.css-->
+		<link rel="stylesheet"
+		href="https://cdn.jsdelivr.net/npm/animate.css@3.5.2/animate.min.css">
+		<!-- or -->
+		<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
 
 </head>
 <body>
 
 <!--Jumbotron-->
-<div class="container">	
-	<div class="jumbotron">
-		<h1 class="display">Tacky Light Tracker</h1> 
-		<p class="lead">Rockin' around RVA</p> 
-	</div>
+<div class="container-fluid">
 <!-- Navigation Bar -->
-	<nav class="navbar navbar-toggleable-md">
+	<nav class="navbar sticky-top navbar-toggleable-md">
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<ul class="navbar-nav mr-auto ">
+			<a class="navbar-brand" href="#">Tacky Light Tracker</a>
+			<ul class="navbar-nav mr-auto">
   				<li class="nav-item active">
     				<a class="nav-link " href="#">Home <span class="sr-only">(current)</span></a>
  				 </li>
-  				<li class="nav-item">
-    				<a class="nav-link" href="#">Music</a>
-  				</li>
-  				<li class="nav-item">
-    				<a class="nav-link" href="#">Weather</a>
-  				</li>
- 				<li class="nav-item">
-    				<a class="nav-link" href="#">Suggest</a>
-  				</li>
-  				<li class="nav-item">
-    				<a class="nav-link" href="#">Check-In</a>
-  				</li>
+ 			</ul>
+ 			<ul class="navbar-nav">	 
   				<li class="nav-item">
     				<a class="nav-link" href="#">Sign In</a>
   				</li>       
@@ -79,8 +72,13 @@
   				</li>
 			</ul>
 		</div>
-	</nav>
+	</nav>	
+	<div class="jumbotron">
+		<h1 class="animated tada" id="display">Tacky Light Tracker</h1> 
+		<p class="lead">Rockin' around RVA</p> 
+	</div>
 </div>	
+
 <div id="map">
   <div id="floating-panel">
       <input id="address" type="textbox" value="Richmond, VA">
