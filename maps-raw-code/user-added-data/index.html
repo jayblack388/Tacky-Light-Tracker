@@ -3,6 +3,10 @@
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
     <title>From Info Windows to a Database: Saving User-Added Form Data</title>
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.js"
+      integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+      crossorigin="anonymous"></script>
     <style>
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
@@ -15,27 +19,33 @@
         margin: 0;
         padding: 0;
       }
+      #floating-panel {
+        position: absolute;
+        top: 10px;
+        left: 25%;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+        text-align: center;
+        font-family: 'Roboto','sans-serif';
+        line-height: 30px;
+        padding-left: 10px;
+      }
     </style>
   </head>
   <body>
-    <div id="map" height="460px" width="100%"></div>
-    <div id="form">
-      <table>
-      <tr><td>Name:</td> <td><input type='text' id='name'/> </td> </tr>
-      <tr><td>Address:</td> <td><input type='text' id='address'/> </td> </tr>
-      <tr><td>Type:</td> <td><select id='type'> +
-                 <option value='bar' SELECTED>bar</option>
-                 <option value='restaurant'>restaurant</option>
-                 </select> </td></tr>
-                 <tr><td></td><td><input type='button' value='Save' onclick='saveData()'/></td></tr>
-      </table>
+    <div id="floating-panel">
+      <input id="address" type="textbox" value="Richmond, VA">
+      <input id="geosubmit" type="button" value="Geocode">
     </div>
-    <div id="message">Location saved</div>
+    <div id="map" height="460px" width="100%"></div>
     <script>
       var map;
       var marker;
       var infowindow;
       var messagewindow;
+      var address;
 
       function initMap() {
         var california = {lat: 37.4419, lng: -122.1419};
@@ -44,12 +54,28 @@
           zoom: 13
         });
 
+        let geocoder = new google.maps.Geocoder();
+        document.getElementById('geosubmit').addEventListener('click',function () {
+          geocodeAddress (geocoder, map);
+        })
+
+
         infowindow = new google.maps.InfoWindow({
-          content: document.getElementById('form')
+          content: `  <div id="form">
+      <table>
+      <tr><td>Name:</td> <td><input type='text' id='name'/>  </td> </tr>
+      <tr><td>Address:</td> <td><input type='text' id='formaddress'/> </td> </tr>
+      <tr><td>Type:</td> <td><select id='type'> +
+                 <option value='bar' SELECTED>bar</option>
+                 <option value='restaurant'>restaurant</option>
+                 </select> </td></tr>
+                 <tr><td></td><td><input type='button' value='Save' onclick='saveData()'/></td></tr>
+      </table>
+    </div>`
         });
 
         messagewindow = new google.maps.InfoWindow({
-          content: document.getElementById('message')
+          content: `<div id="message">Location saved</div>`
         });
 
         google.maps.event.addListener(map, 'click', function(event) {
@@ -67,7 +93,7 @@
 
       function saveData() {
         var name = escape(document.getElementById('name').value);
-        var address = escape(document.getElementById('address').value);
+        var dataaddress = escape(document.getElementById('formaddress').value);
         var type = document.getElementById('type').value;
         var latlng = marker.getPosition();
         var url = 'phpsqlinfo_addrow.php?name=' + name + '&address=' + address +
@@ -101,18 +127,26 @@
       function doNothing () {
       }
       function geocodeAddress(geocoder, resultsMap) {
-        var address = document.getElementById('address').value;
+        address = document.getElementById('address').value;
         geocoder.geocode({'address': address}, function(results, status) {
           if (status === 'OK') {
             resultsMap.setCenter(results[0].geometry.location);
-            var marker = new google.maps.Marker({
+            marker = new google.maps.Marker({
               map: resultsMap,
               position: results[0].geometry.location
+            });
+            address = results[0].formatted_address
+            console.log(address)
+            
+            google.maps.event.addListener(marker, 'click', function() {
+              infowindow.open(map, marker);
+              $('#formaddress').attr("value", address);
             });
           } else {
             alert('Geocode was not successful for the following reason: ' + status);
           }
-      }    
+        });
+      };      
 
     </script>
     <script async defer

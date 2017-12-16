@@ -8,26 +8,14 @@
        /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
       #map {
-        height: 80%;
+        height: 50%;
+        width: 45%;
       }
       /* Optional: Makes the sample page fill the window. */
       html, body {
         height: 100%;
         margin: 0;
         padding: 0;
-      }
-      #floating-panel {
-        position: absolute;
-        top: 10px;
-        left: 25%;
-        z-index: 5;
-        background-color: #fff;
-        padding: 5px;
-        border: 1px solid #999;
-        text-align: center;
-        font-family: 'Roboto','sans-serif';
-        line-height: 30px;
-        padding-left: 10px;
       }
     </style>
 	<title>Tacky Lights Tracker</title>
@@ -45,7 +33,7 @@
 		<script 
 	      src="https://cdn.jsdelivr.net/npm/moment@2.19.3/moment.js"></script>
 	<!-- CSS -->
-		<!-- Insert Framework CDN Below -->
+		<!-- Bootstrap Framework -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 		<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
@@ -54,35 +42,28 @@
 		<link rel="stylesheet" href="./assets/css/style.css">
 		<!-- Goolge Fonts -->
 		<link href="https://fonts.googleapis.com/css?family=Josefin+Slab|Sacramento" rel="stylesheet">
+		<!--Animate.css-->
+		<link rel="stylesheet"
+		href="https://cdn.jsdelivr.net/npm/animate.css@3.5.2/animate.min.css">
+		<!-- or -->
+		<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
 
 </head>
 <body>
 
 <!--Jumbotron-->
-<div class="container-fluid">	
-	<div class="jumbotron">
-		<h1 class="display">Tacky Light Tracker</h1> 
-		<p class="lead">Rockin' around RVA</p> 
-	</div>
+<div class="container-fluid">
 <!-- Navigation Bar -->
-	<nav class="navbar navbar-toggleable-md navbar-light bg-faded ">
+	<nav class="navbar sticky-top navbar-toggleable-md">
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<ul class="navbar-nav mr-auto ">
+			<a class="navbar-brand" href="#">Tacky Light Tracker</a>
+			<ul class="navbar-nav mr-auto">
   				<li class="nav-item active">
     				<a class="nav-link " href="#">Home <span class="sr-only">(current)</span></a>
  				 </li>
-  				<li class="nav-item">
-    				<a class="nav-link" href="#">Music</a>
-  				</li>
-  				<li class="nav-item">
-    				<a class="nav-link" href="#">Weather</a>
-  				</li>
- 				<li class="nav-item">
-    				<a class="nav-link" href="#">Suggest</a>
-  				</li>
-  				<li class="nav-item">
-    				<a class="nav-link" href="#">Check-In</a>
-  				</li>
+ 			</ul>
+ 			<ul class="navbar-nav">	 
   				<li class="nav-item">
     				<a class="nav-link" href="#">Sign In</a>
   				</li>       
@@ -91,35 +72,21 @@
   				</li>
 			</ul>
 		</div>
-	</nav>
-  
+	</nav>	
+	<div class="jumbotron">
+		<h1 class="animated tada" id="display">Tacky Light Tracker</h1> 
+		<p class="lead">Rockin' around RVA</p> 
+	</div>
+</div>	
+
+<div id="map">
   <div id="floating-panel">
       <input id="address" type="textbox" value="Richmond, VA">
       <input id="geosubmit" type="button" value="Geocode">
-    </div>
-    <div id="map"></div>
+  </div>
+</div>
     <div id="results"></div>
-<!-- Blocking Out this Code for merge conflict
-  <!--Google Map API Div-->
-	  <div class="row">
-		  <div class="col-sm" id="map"></div>
-		  <div class="row">	
-			  <div class="col-sm" id="address"></div>	
-			  <div class="col-sm" id="home-image"></div>
-		  </div>
-  <!--Weather API Div-->		
-		  <div class="row">
-			  <div class="col-sm" id="weather"></div>
-		  </div>
-  <!--Spotify API Div (if needed)-->
-		  <div class="row">
-			  <div class="col-sm" id="spotify"></div>
-		  </div>				
-	  </div>
-	  <div class="row">
 
-    </div> 
-  -->
 
 <!-- Custom Scripts -->
 	<script 
@@ -130,3 +97,25 @@
 	    </script>	  
 </body>
 </html>
+<!--Blocking Out this Code for merge conflict
+</div>  
+   
+  <div class="row">
+    <div class="col-sm" id="map"></div>
+    <div class="row"> 
+    <div class="col-sm" id="address"></div> 
+    <div class="col-sm" id="home-image"></div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm" id="weather"></div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm" id="spotify"></div>
+  </div>        
+</div>
+<div class="row">
+
+</div> 
+   -->
