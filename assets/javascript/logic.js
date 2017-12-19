@@ -16,15 +16,22 @@ const config = {
   let data = {};
   let map;
   let marker;
+  let markers = [];
   let infowindow;
+  let addressInfo;
   let messagewindow;
   let address;
   let geocoder;
   let pos = {};
+  let post = {};
+  let firstFifty = mapDatabase.limitToFirst(50)
+  let richmond = {lat: 37.540, lng: -77.436};
+
+
 
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 10,
+      zoom: 12,
       center: pos
     });
 
@@ -64,7 +71,6 @@ function initMap() {
                               'Error: Your browser doesn\'t support geolocation.');
         infoWindow.open(map);
 
-        let richmond = {lat: 37.540, lng: -77.436};
                 map = new google.maps.Map(document.getElementById('map'), {
                   zoom: 15,
                   center: richmond
@@ -76,7 +82,7 @@ function initMap() {
           <div id="form">
           <table>
             <tr><td>Address:</td> <td><input type='text' id='formaddress'/></td></tr>
-            <tr><td></td><td><input type='button' value='Save'/></td></tr>
+            <tr><td></td><td><input type='button' onclick='saveData()' value='Save'/></td></tr>
           </table>
           </div>`
         });
@@ -85,16 +91,6 @@ function initMap() {
       content: `<div id="message">Location saved</div>`
     });
 
-    google.maps.event.addListener(map, 'click', function(event) {
-      marker = new google.maps.Marker({
-        position: event.latLng,
-        map: map
-      });
-
-      google.maps.event.addListener(marker, 'click', function() {
-        infowindow.open(map, marker);
-      });
-    });
 };
 
 function geocodeAddress(geocoder, resultsMap) {
@@ -121,25 +117,48 @@ function geocodeAddress(geocoder, resultsMap) {
               address: results[0].formatted_address,
               lat: results[0].geometry.location.lat(),
               lng: results[0].geometry.location.lng(),
-              timestamp: firebase.database.ServerValue.TIMESTAMP
             };
-            mapDatabase.push({
-              locationData: data
-            })
+            
           });
 };
-
-mapDatabase.on('child_added', function(snapshot){
-  pos = {
-    lat: snapshot.val().locationData.lat,
-    lng: snapshot.val().locationData.lng
+function saveData() {
+  data.timestamp = firebase.database.ServerValue.TIMESTAMP
+  mapDatabase.push({
+    locationData: data
+  });
+};
+function centerMap() {
+  map.setCenter(richmond);
+  map.setZoom(12);
+  infoWindow.close();
+  addressInfo.close();
+};
+firstFifty.on('child_added', function(snapshot){
+  post = {
+  lat: snapshot.val().locationData.lat,
+  lng: snapshot.val().locationData.lng
   }
   marker = new google.maps.Marker({
     map: map,
-    position: pos
+    position: post,
+    title: snapshot.val().locationData.address
   })
+  markers.push(marker)
+  console.log(markers)
 
-  console.log(snapshot.val().locationData.address)
+  addressInfo = new google.maps.InfoWindow();
+  for (i = 0; i < markers.length; i++) {
+    let thisData = markers[i];
+    (function (marker, thisData) {
+      google.maps.event.addListener(marker, "click", function (e) {
+        addressInfo.setContent("<div style= 'width:200px;min-height:40px'>" + thisData.title + "</div>");
+        addressInfo.open(map, marker);
+        map.setCenter(marker.getPosition());
+        map.setZoom(13);
+      });
+    }) (marker, thisData);
+  }
+
 });
 
 //Weather API
