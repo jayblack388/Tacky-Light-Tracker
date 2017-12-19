@@ -188,7 +188,7 @@ $.ajax({
 
     var widgetTemp = $("<p>").html("Currently in " + cityName + ":" + "<br>" + temperature + " \xB0F");
 
-    var widgetConditions = $("<p>").html(widgetConditionsIcon + "<br>" + condition);
+    var widgetConditions = $("<p>").html(widgetConditionsIcon);
 
     weatherDiv.append(widgetTemp);
     weatherDiv.append(widgetConditions);
