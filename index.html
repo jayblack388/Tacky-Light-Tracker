@@ -8,8 +8,8 @@
        /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
       #map {
-        height: 50%;
-        width: 45%;
+        height: 100%;
+        width: 100%;
       }
       /* Optional: Makes the sample page fill the window. */
       html, body {
@@ -53,7 +53,7 @@
 </head>
 <body>
 
-<!--Jumbotron-->
+<!-- container for whole page -->
 <div class="container-fluid">
 <!-- Navigation Bar -->
 	<nav class="navbar sticky-top navbar-toggleable-md">
@@ -74,24 +74,38 @@
 			</ul>
 		</div>
 	</nav>	
+<!--Jumbotron-->	
 	<div class="jumbotron">
 		<h1 class="animated tada" id="display">Tacky Light Tracker</h1> 
 		<p class="lead">Rockin' around RVA</p> 
 	</div>
-</div>	
 
-<div id="map"></div>
-<div id="floating-panel">
-    <input id="address" type="textbox" value="Richmond, VA">
-    <input id="geosubmit" type="button" value="Geocode">
-</div>
-<div id="results"></div>
-<!--<div class="row">-->
-	<div class="col-sm" id="weather"></div>
-<!--</div>-->
+<!-- MAIN SECTION -->
+	<div class="row">	
+		<div class="col-sm-12 col-md-6 float-left">
+			<div class="row">
+				<!-- MAP & GEOCODE -->
+				<div class="col-sm-12 col-md-12" id="mapHeight">
+					<div id="map"></div>
+					<div id="floating-panel col-sm-12 col-md-12" id="heightGeocode">
+					    <input id="address" type="textbox" value="Richmond, VA">
+					    <input id="geosubmit" type="button" value="Find A New Location">
+					    <input id="center" type="button" onclick="centerMap()" value="Back to Center">
+					</div>
+					<div id="results"></div>
+				</div>
+			</div>
+		</div>
+		<!-- SPOTIFY -->
+		<div class="col-sm-12 col-md-6 float-right" id="spotify">
+			<iframe src="https://open.spotify.com/embed?uri=spotify:user:spotify:playlist:37i9dQZF1DX0A8zVl7p82B&theme=white" width="300" height="80" frameborder="0" allowtransparency="true"></iframe>
+			<!--WEATHER API-->
+			<div class="col-sm-12 col-md-12" id="weather"></div>
+		</div>
+	</div>
+</div> <!-- End of container -->
 
-
-<!-- Custom Scripts -->
+<!-- Javascript -->
 	<script 
 	  src="./assets/javascript/logic.js"></script>
 <!-- Google Maps Call -->
@@ -100,23 +114,3 @@
 	    </script>	  
 </body>
 </html>
-<!--Blocking Out this Code for merge conflict
-</div>  
-   
-  <div class="row">
-    <div class="col-sm" id="map"></div>
-    <div class="row"> 
-    <div class="col-sm" id="address"></div> 
-    <div class="col-sm" id="home-image"></div>
-  </div>
-
-
-
-  <div class="row">
-    <div class="col-sm" id="spotify"></div>
-  </div>        
-</div>
-<div class="row">
-
-</div> 
-   -->

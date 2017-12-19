@@ -1,5 +1,6 @@
 body {
 	background-color: #e0e0e0;
+	align-content: center;
 }
 .jumbotron {
 	background: url("./images/christmaslights.jpg")
@@ -63,6 +64,11 @@ body {
     margin-left: 15px;
 }  
 
+
+#mapHeight {
+	height: 300px;
+}
+
 #weather {
 	width:45%;
 	height:30%;
@@ -75,5 +81,7 @@ body {
 	margin-top:5px;
 	margin-left:15px;
 	padding: 10px;
+  float: right;
+	clear: both;
 
 }
