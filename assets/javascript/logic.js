@@ -183,9 +183,12 @@ $.ajax({
     var conditionIconCall = response["weather"]['0']["icon"];
     var weatherImgUrl = "http://openweathermap.org/img/w/" + conditionIconCall + ".png";
     var widgetConditionsIcon = $("<img>").attr("src", weatherImgUrl);
-    	console.log("City Name: " + cityName + " | Temperature: " + temperature + " \xB0F");
-	var widgetTemp = $("<p>").html("Currently in " + cityName + ":" + "<br>" + temperature + " \xB0F");
-    var widgetConditions = $("<p>").html(widgetConditionsIcon);
+
+    console.log("City Name: " + cityName + " | Temperature: " + temperature + " \xB0F");
+
+    var widgetTemp = $("<p>").html("Currently in " + cityName + ":" + "<br>" + temperature + " \xB0F");
+
+    var widgetConditions = $("<p>").html(widgetConditionsIcon + "<br>" + condition);
 
     weatherDiv.append(widgetTemp);
     weatherDiv.append(widgetConditions);

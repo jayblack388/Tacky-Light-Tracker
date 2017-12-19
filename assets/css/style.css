@@ -10,22 +10,22 @@ body {
 		background-size: cover;
 	color: #ffffff;	
 	border-color: #1f6660;
-	height: 350px;
+	height: 30vw;
 	background-position: 50% 25%;
 	margin: 0px;
 	border-radius: 0px;
 }
 
 .jumbotron #display {
-	font-size:72px;
+	font-size:6vw;
 	font-family: 'Sacramento', cursive;
 	text-align: center;
-	margin-top:110px;
+	margin-top:10vw;
 }
 
 .jumbotron .lead {
 	font-family: 'Josefin Slab', serif;
-	font-size:45px;
+	font-size:4vw;
 	text-align:center;
 }
 
@@ -64,13 +64,24 @@ body {
     margin-left: 15px;
 }  
 
+
 #mapHeight {
 	height: 300px;
 }
 
-
-
 #weather {
-	float: right;
+	width:45%;
+	height:30%;
+	background-color:#22525e;
+	text-align: center;
+	font-family: 'Josefin Slab', serif !important;
+	font-size: 24px;
+	color: #ffffff;
+	line-height: 30px;
+	margin-top:5px;
+	margin-left:15px;
+	padding: 10px;
+  float: right;
 	clear: both;
+
 }
