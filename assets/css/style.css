@@ -62,3 +62,18 @@ body {
     line-height: 30px;
     margin-left: 15px;
 }  
+
+#weather {
+	width:45%;
+	height:30%;
+	background-color:#22525e;
+	text-align: center;
+	font-family: 'Josefin Slab', serif !important;
+	font-size: 24px;
+	color: #ffffff;
+	line-height: 30px;
+	margin-top:5px;
+	margin-left:15px;
+	padding: 10px;
+
+}
