@@ -126,6 +126,7 @@ function saveData() {
   mapDatabase.push({
     locationData: data
   });
+  infowindow.close();
 };
 function centerMap() {
   map.setCenter(richmond);
