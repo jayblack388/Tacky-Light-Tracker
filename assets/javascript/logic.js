@@ -142,6 +142,7 @@ mapDatabase.on('child_added', function(snapshot){
   console.log(snapshot.val().locationData.address)
 });
 
+//Weather API
 var weatherApiKey = "f7df47b99b23eb3b8a448faa4293549d";
 var cityZipCode = 23220;
 var queryURL = "https://api.openweathermap.org/data/2.5/weather?zip=" + cityZipCode + ",us&APPID=" + weatherApiKey;
@@ -156,29 +157,18 @@ $.ajax({
     console.log(response["name"]);
 
     var weatherDiv = $("<div class = 'weatherWidget'>");
-
     var cityName = response["name"];
-
     var temperature = response["main"]["temp"];
-
     var condition = response["weather"]["0"]["description"];
-
     var conditionIconCall = response["weather"]['0']["icon"];
-
     var weatherImgUrl = "http://openweathermap.org/img/w/" + conditionIconCall + ".png";
-
     var widgetConditionsIcon = $("<img>").attr("src", weatherImgUrl);
-
-    console.log("City Name: " + cityName + " | Temperature: " + temperature + " \xB0F");
-
-    var widgetTemp = $("<p>").text("Currently in " + cityName + ":" + temperature + " \xB0F");
-
+    	console.log("City Name: " + cityName + " | Temperature: " + temperature + " \xB0F");
+	var widgetTemp = $("<p>").html("Currently in " + cityName + ":" + "<br>" + temperature + " \xB0F");
     var widgetConditions = $("<p>").html(widgetConditionsIcon);
 
     weatherDiv.append(widgetTemp);
-
     weatherDiv.append(widgetConditions);
-
     weatherDiv.append(" " + condition)
 
     $("#weather").prepend(weatherDiv);

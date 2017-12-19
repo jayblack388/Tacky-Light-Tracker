@@ -54,7 +54,6 @@
 
 <!-- container for whole page -->
 <div class="container-fluid">
-<!--Jumbotron-->
 <!-- Navigation Bar -->
 	<nav class="navbar sticky-top navbar-toggleable-md">
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -74,18 +73,19 @@
 			</ul>
 		</div>
 	</nav>	
+<!--Jumbotron-->	
 	<div class="jumbotron">
 		<h1 class="animated tada" id="display">Tacky Light Tracker</h1> 
 		<p class="lead">Rockin' around RVA</p> 
 	</div>
 
-	<!-- start of main section -->
+<!-- MAIN SECTION -->
 	<div class="row">	
 		<div class="col-sm-12 col-md-6 float-left">
 			<div class="row">
+				<!-- MAP & GEOCODE -->
 				<div class="col-sm-12 col-md-12" id="mapHeight">
 					<div id="map"></div>
-
 					<div id="floating-panel col-sm-12 col-md-12" id="heightGeocode">
 					    <input id="address" type="textbox" value="Richmond, VA">
 					    <input id="geosubmit" type="button" value="Geocode">
@@ -94,19 +94,16 @@
 				</div>
 			</div>
 		</div>
-	<!-- </div> -->
-		<!-- <div class="row"> -->
+		<!-- SPOTIFY -->
 		<div class="col-sm-12 col-md-6 float-right" id="spotify">
 			<iframe src="https://open.spotify.com/embed?uri=spotify:user:spotify:playlist:37i9dQZF1DX0A8zVl7p82B&theme=white" width="300" height="80" frameborder="0" allowtransparency="true"></iframe>
-	
-			<div class="col-sm-12 col-md-12" id="weather">
-				
-			</div>
+			<!--WEATHER API-->
+			<div class="col-sm-12 col-md-12" id="weather"></div>
 		</div>
 	</div>
 </div> <!-- End of container -->
 
-<!-- Custom Scripts -->
+<!-- Javascript -->
 	<script 
 	  src="./assets/javascript/logic.js"></script>
 <!-- Google Maps Call -->
@@ -115,21 +112,3 @@
 	    </script>	  
 </body>
 </html>
-
-<!-- </div>  
-   
-  <div class="row">
-    <div class="col-sm" id="map"></div>
-    <div class="row"> 
-    <div class="col-sm" id="address"></div> 
-    <div class="col-sm" id="home-image"></div>
-  </div>
-
-
-
-        
-</div>
-<div class="row">
-
-</div> 
-  -->
