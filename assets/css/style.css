@@ -87,18 +87,36 @@ body {
 	color: #ffffff;
 }
 #directions {
-	background-color: yellow;
+	background-color: #22525e;
+	color: #e0e0e0;
+    padding: 5px;
+    text-align: center;
+    line-height: 30px;;
 }
 #from {
-	background-color: red;
+	background-color: #22525e;
+	color: #e0e0e0;
 }
 #to {
-	background-color: blue;
+	background-color: #22525e;
+	color: #e0e0e0;
 }
 #step-by-step {
-	background-color: green;
+	background-color: #337c8e;
+	color: #e0e0e0;
 }
 #copyright {
     font-family: 'Josefin Slab', serif !important;
     padding-top:5px;
+}
+
+@media screen and (max-width: 480px) {
+	.jumbotron {
+		height: 40vw;
+	}
+
+	.jumbotron #display {
+		font-size:7vw;
+		margin-top:11vw;
+	}
 }
