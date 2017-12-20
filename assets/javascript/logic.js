@@ -70,11 +70,39 @@ function initMap() {
                               'Error: The Geolocation service failed.' :
                               'Error: Your browser doesn\'t support geolocation.');
         infoWindow.open(map);
+        // If location is denied then zoom
+        map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 12,
+          center: richmond
+        });
+        firstFifty.on('child_added', function(snapshot){
 
-                map = new google.maps.Map(document.getElementById('map'), {
-                  zoom: 15,
-                  center: richmond
-                });
+          post = {
+          lat: snapshot.val().locationData.lat,
+          lng: snapshot.val().locationData.lng
+          }
+          marker = new google.maps.Marker({
+            map: map,
+            position: post,
+            title: snapshot.val().locationData.address
+          })
+          markers.push(marker)
+          //console.log(markers)
+
+          addressInfo = new google.maps.InfoWindow();
+          for (i = 0; i < markers.length; i++) {
+            let thisData = markers[i];
+            (function (marker, thisData) {
+              google.maps.event.addListener(marker, "click", function (e) {
+                addressInfo.setContent("<div style= 'width:200px;min-height:40px'>" + thisData.title + "</div>");
+                addressInfo.open(map, marker);
+                map.setCenter(marker.getPosition());
+                map.setZoom(13);
+              });
+            }) (marker, thisData);
+          }
+
+        });
       }  
 
     infowindow = new google.maps.InfoWindow({
