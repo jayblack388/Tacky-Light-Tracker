@@ -85,3 +85,6 @@ body {
 	clear: both;*/
 
 }
+.container-fluid {
+	padding:0;
+}
