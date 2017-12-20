@@ -194,5 +194,5 @@ $.ajax({
     weatherDiv.append(widgetConditions);
     weatherDiv.append(" " + condition)
 
-    $("#weather").prepend(weatherDiv);
+    $("#weather").html(weatherDiv);
   });
