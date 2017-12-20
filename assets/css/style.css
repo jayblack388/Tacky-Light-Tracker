@@ -86,9 +86,6 @@ body {
 	font-size: 18px;
 	color: #ffffff;
 }
-.container-fluid {
-	padding:0;
-}
 #directions {
 	background-color: yellow;
 }
