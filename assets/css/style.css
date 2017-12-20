@@ -76,14 +76,18 @@ body {
     line-height: 30px;
 }
 
+
 .footer {
-	margin-top:75px;
 	padding:15px;
-	background-color:#22525e;
-	font-family: 'Josefin Slab', serif !important;
-	font-size: 22px;
+	border-top-style: solid;
+	border-color:#87d9e5;
+	border-top-width: 5px;
+	background-color: #22525e;
+	font-size: 18px;
 	color: #ffffff;
 }
-.container-fluid {
-	padding:0;
+
+#copyright {
+    font-family: 'Josefin Slab', serif !important;
+    padding-top:5px;
 }
