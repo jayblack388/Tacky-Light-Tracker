@@ -1,3 +1,9 @@
+html, body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
 body {
 	background-color: #e0e0e0;
 	align-content: center;
@@ -52,29 +58,26 @@ body {
 	color: #e0e0e0 !important;
 }
 
-/*#map {
-	margin-left:15px;
-}*/
+#map {
+	height: 100%;
+	width: 100%;
+}
 
 #mapHeight {
 	height: 300px;
+	padding:0;
 }
 
 #floating-panel {
-/*    top: 10px;*/
-/*    left: 25%;
-*/ /*   width: 45%;*/
-    z-index: 5;
     background-color: #22525e;
     padding: 5px;
     text-align: center;
     font-family: 'Josefin Slab', serif !important;
     line-height: 30px;
-    margin-left: 15px;
 }
 
 .footer {
-	margin-top:100px;
+	margin-top:75px;
 	padding:15px;
 	background-color:#22525e;
 	font-family: 'Josefin Slab', serif !important;

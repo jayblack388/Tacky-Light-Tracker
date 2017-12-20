@@ -1,23 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<!-- Pretty sure this is a required meta tag for google maps, I'm sure we can manipulate and experiment with it as needed -->
 	<meta name="viewport" content="initial-scale=1.0, user-scalable=1.0">
     <meta charset="utf-8">
-    <style>
-       /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-      #map {
-        height: 100%;
-        width: 100%;
-      }
-      /* Optional: Makes the sample page fill the window. */
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-    </style>
+
 	<title>Tacky Lights Tracker</title>
 	
 	<!-- Script Addons -->
@@ -53,7 +39,7 @@
 </head>
 <body>
 
-<!-- container for whole page -->
+<!-- Container for Whole Page -->
 <div class="container-fluid">
 <!-- Navigation Bar -->
 	<nav class="navbar sticky-top navbar-toggleable-md">
@@ -81,22 +67,19 @@
 	</div>
 
 <!-- MAIN SECTION -->
-<!-- 	<div class="row">	
-		<div class="col-sm-12 col-md-6 float-left"> -->
-			<div class="row">
-				<!-- MAP & GEOCODE -->
-				<div class="col-sm-6 col-md-6" id="mapHeight">
-					<div id="map"></div>
-				</div>
-			</div>	
-			<div class="row">	
-				<div class="col-sm-6 col-md-6" id="floating-panel">
-					<input id="address" type="textbox" value="Richmond, VA">
-					<input id="geosubmit" type="button" value="Find A New Location">
-					<input id="center" type="button" onclick="centerMap()" value="Back to Center">
-					</div>
-				<div id="results"></div>
-			</div>
+	<div class="row">
+		<!-- MAP & GEOCODE -->
+		<div class="col-sm-6 col-md-6" id="mapHeight">
+			<div id="map"></div>
+		</div>
+		<div class="col-sm-6 col-md-6" id="directions">
+		</div>
+	</div>	
+	<div class="row">	
+		<div class="col-sm-6 col-md-6" id="floating-panel">
+			<input id="address" type="textbox" value="Richmond, VA">
+			<input id="geosubmit" type="button" value="Find A New Location">
+			<input id="center" type="button" onclick="centerMap()" value="Back to Center">
 		</div>
 	</div>	
 </div> <!-- End of container -->
@@ -112,7 +95,7 @@
     </div>
     <div class="row">
             <div class="col-sm text-center small align-self-end">©2017 John Blackwell, Brittany Gillespie, Olivia Garrett, Syed Shehzad</div>      
-        </div>
+    </div>
 </footer>
 <!-- Javascript -->
 	<script 
