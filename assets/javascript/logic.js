@@ -24,12 +24,21 @@ const config = {
   let geocoder;
   let pos = {};
   let post = {};
+  let originPos = {};
   let firstFifty = mapDatabase.limitToFirst(50)
   let richmond = {lat: 37.540, lng: -77.436};
 
+  var origin;
+  var destination;
 
 
 function initMap() {
+
+    var markerArray = [];
+
+    // Instantiate a directions service.
+    var directionsService = new google.maps.DirectionsService;
+
     map = new google.maps.Map(document.getElementById('map'), {
       zoom: 12,
       center: pos
@@ -39,6 +48,9 @@ function initMap() {
     document.getElementById('geosubmit').addEventListener('click',function () {
       geocodeAddress (geocoder, map);
     });
+
+    // Create a renderer for directions and bind it to the map.
+    var directionsDisplay = new google.maps.DirectionsRenderer({map: map});
     
     marker = new google.maps.Marker({
       position: pos,
@@ -53,6 +65,8 @@ function initMap() {
             lat: position.coords.latitude,
             lng: position.coords.longitude
           };
+          originPos = pos;
+          $('#from').text(originPos.lat.toString() + originPos.lng.toString())
           infoWindow.setPosition(pos);
           infoWindow.setContent('Location found.');
           infoWindow.open(map);
@@ -64,18 +78,19 @@ function initMap() {
         // Browser doesn't support Geolocation
         handleLocationError(false, infoWindow, map.getCenter());
       }
-    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-        infoWindow.setPosition(pos);
-        infoWindow.setContent(browserHasGeolocation ?
-                              'Error: The Geolocation service failed.' :
-                              'Error: Your browser doesn\'t support geolocation.');
-        infoWindow.open(map);
 
-                map = new google.maps.Map(document.getElementById('map'), {
-                  zoom: 15,
-                  center: richmond
-                });
-      }  
+      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+          infoWindow.setPosition(pos);
+          infoWindow.setContent(browserHasGeolocation ?
+                                'Error: The Geolocation service failed.' :
+                                'Error: Your browser doesn\'t support geolocation.');
+          infoWindow.open(map);
+
+                  map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 15,
+                    center: richmond
+                  });
+        }  
 
     infowindow = new google.maps.InfoWindow({
           content: `  
@@ -91,7 +106,59 @@ function initMap() {
       content: `<div id="message">Location saved</div>`
     });
 
+
+    // Display the route between the initial start and end selections.
+    calculateAndDisplayRoute(
+        directionsDisplay, directionsService, markerArray, stepDisplay, map);
+    // Listen to change events from the start and end lists.
+    var onChangeHandler = function() {
+      calculateAndDisplayRoute(
+          directionsDisplay, directionsService, markerArray, stepDisplay, map);
+    };
+    document.getElementById('getdirections').addEventListener('click', onChangeHandler);
+    //document.getElementById('end').addEventListener('change', onChangeHandler);
+
 };
+
+
+function calculateAndDisplayRoute(directionsDisplay, directionsService,
+    markerArray, stepDisplay, map) {
+  // First, remove any existing markers from the map.
+  for (var i = 0; i < markerArray.length; i++) {
+    markerArray[i].setMap(null);
+  }
+
+  // Retrieve the start and end locations and create a DirectionsRequest using
+  // WALKING directions.
+  directionsService.route({
+    origin: originPos,
+    destination: destination,
+    travelMode: 'DRIVING'
+  }, function(response, status) {
+    // Route the directions and pass the response to a function to create
+    // markers for each step.
+    if (status === 'OK') {
+      //document.getElementById('warnings-panel').innerHTML =
+      //    '<b>' + response.routes[0].warnings + '</b>';
+      directionsDisplay.setDirections(response);
+      showSteps(response, markerArray, stepDisplay, map);
+      console.log(response)
+
+    } else {
+      window.alert('Directions request failed due to ' + status);
+    }
+  });
+}
+
+
+function showSteps(directionResult, markerArray, stepDisplay, map, frome, to) {
+  // For each step, add the text to the step-by-step directions display.
+  var myRoute = directionResult.routes[0].legs[0];
+  for (var i = 0; i < myRoute.steps.length; i++) {
+    $("#directions").append(i + 1 + ". " + response.routes[0].legs[0].steps[i].instructions + "<br>");
+  }
+}
+
 
 function geocodeAddress(geocoder, resultsMap) {
         address = document.getElementById('address').value;
@@ -156,6 +223,8 @@ firstFifty.on('child_added', function(snapshot){
         addressInfo.open(map, marker);
         map.setCenter(marker.getPosition());
         map.setZoom(13);
+        destination = thisData.title
+        console.log("ORIGIN: " + origin)
       });
     }) (marker, thisData);
   }

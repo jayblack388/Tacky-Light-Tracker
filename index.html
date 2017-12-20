@@ -17,6 +17,23 @@
         margin: 0;
         padding: 0;
       }
+
+      #directions {
+      	background-color: yellow;
+      }
+
+      #from {
+      	background-color: red;
+      }
+
+      #to {
+      	background-color: blue;
+      }
+
+      #step-by-step {
+      	background-color: green;
+      }
+      
     </style>
 	<title>Tacky Lights Tracker</title>
 	
@@ -97,10 +114,13 @@
 			</div>
 		</div>
 		<!-- SPOTIFY -->
-		<div class="col-sm-12 col-md-6 float-right" id="spotify">
-			<iframe src="https://open.spotify.com/embed?uri=spotify:user:spotify:playlist:37i9dQZF1DX0A8zVl7p82B&theme=white" width="300" height="80" frameborder="0" allowtransparency="true"></iframe>
-			<!--WEATHER API-->
-			<div class="col-sm-12 col-md-12" id="weather"></div>
+		<div class="col-sm-12 col-md-6 float-right" id="directions">
+			<button id="getdirections">Get Directions</button>
+			<p>Origin: </p>
+			<div id="from"></div>
+			<p>Destination: </p>
+			<div id="to"></div>
+			<div id="step-by-step"></div>
 		</div>
 	</div>
 </div> <!-- End of container -->
