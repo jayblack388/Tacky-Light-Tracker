@@ -2,6 +2,10 @@ body {
 	background-color: #e0e0e0;
 	align-content: center;
 }
+
+.container-fluid {
+	padding:0;
+}
 .jumbotron {
 	background: url("./images/christmaslights.jpg")
 	no-repeat;
@@ -47,14 +51,19 @@ body {
 .nav-link {
 	color: #e0e0e0 !important;
 }
-#map {
+
+/*#map {
 	margin-left:15px;
+}*/
+
+#mapHeight {
+	height: 300px;
 }
 
 #floating-panel {
-    top: 10px;
-    left: 25%;
-    width: 45%;
+/*    top: 10px;*/
+/*    left: 25%;
+*/ /*   width: 45%;*/
     z-index: 5;
     background-color: #22525e;
     padding: 5px;
@@ -62,26 +71,13 @@ body {
     font-family: 'Josefin Slab', serif !important;
     line-height: 30px;
     margin-left: 15px;
-}  
-
-
-#mapHeight {
-	height: 300px;
 }
 
-#weather {
-	width:45%;
-	height:30%;
+.footer {
+	margin-top:100px;
+	padding:15px;
 	background-color:#22525e;
-	text-align: center;
 	font-family: 'Josefin Slab', serif !important;
-	font-size: 24px;
+	font-size: 22px;
 	color: #ffffff;
-	line-height: 30px;
-	margin-top:5px;
-	margin-left:15px;
-	padding: 10px;
-  float: right;
-	clear: both;
-
 }
