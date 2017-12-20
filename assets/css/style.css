@@ -87,3 +87,15 @@ body {
 .container-fluid {
 	padding:0;
 }
+#directions {
+	background-color: yellow;
+}
+#from {
+	background-color: red;
+}
+#to {
+	background-color: blue;
+}
+#step-by-step {
+	background-color: green;
+}

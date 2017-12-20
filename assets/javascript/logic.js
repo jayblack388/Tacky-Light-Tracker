@@ -24,10 +24,15 @@ const config = {
   let geocoder;
   let pos = {};
   let post = {};
-  let lastFifty = mapDatabase.limitToLast(50)
+  let originPos;
+  let lastFifty = mapDatabase.limitToLast(50);
   let richmond = {lat: 37.540, lng: -77.436};
-
-
+  let origin;
+  let destination;
+  let directionsService;
+  let directionsDisplay;
+  let stepDisplay;
+  let markerArray = [];
 
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
@@ -39,12 +44,13 @@ function initMap() {
     document.getElementById('geosubmit').addEventListener('click',function () {
       geocodeAddress (geocoder, map);
     });
-    
-    marker = new google.maps.Marker({
-      position: pos,
-      map: map
-    });
 
+    directionsService = new google.maps.DirectionsService;
+
+    directionsDisplay = new google.maps.DirectionsRenderer({map: map});
+
+    stepDisplay = new google.maps.InfoWindow;
+    
     infoWindow = new google.maps.InfoWindow;
       // Try HTML5 geolocation.
       if (navigator.geolocation) {
@@ -53,6 +59,8 @@ function initMap() {
             lat: position.coords.latitude,
             lng: position.coords.longitude
           };
+          originPos = pos;
+          $('#from').text("Your location: " + originPos.lat.toString() + originPos.lng.toString());
           infoWindow.setPosition(pos);
           infoWindow.setContent('Location found.');
           infoWindow.open(map);
@@ -119,6 +127,66 @@ function initMap() {
       content: `<div id="message">Location saved</div>`
     });
 
+
+    // Display the route between the initial start and end selections.
+    calculateAndDisplayRoute(
+      directionsDisplay, directionsService, markerArray, stepDisplay, map);
+    // Listen to change events from the start and end lists.
+    function onChangeHandler() {
+      calculateAndDisplayRoute(
+        directionsDisplay, directionsService, markerArray, stepDisplay, map);
+    };
+    document.getElementById('getdirections').addEventListener('click', onChangeHandler);
+    //document.getElementById('end').addEventListener('change', onChangeHandler);
+
+};
+
+function calculateAndDisplayRoute(directionsDisplay, directionsService,
+    markerArray, stepDisplay, map) {
+  // First, remove any existing markers from the map.
+  // for (var i = 0; i < markerArray.length; i++) {
+  //   markerArray[i].setMap(null);
+  // }
+
+  // Retrieve the start and end locations and create a DirectionsRequest using
+  // WALKING directions.
+  directionsService.route({
+    origin: originPos,
+    destination: destination,
+    travelMode: 'DRIVING'
+  }, function(response, status) {
+    // Route the directions and pass the response to a function to create
+    // markers for each step.
+    if (status === 'OK') {
+      //document.getElementById('warnings-panel').innerHTML =
+      //    '<b>' + response.routes[0].warnings + '</b>';
+      directionsDisplay.setDirections(response);
+      showSteps(response, markerArray, stepDisplay, map);
+      console.log(response)
+
+    } else {
+      window.alert('Directions request failed due to ' + status);
+    }
+  });
+};
+
+
+$('#getdirections').click(function() {
+  $("#step-by-step").empty();
+  calculateAndDisplayRoute();
+  showSteps();
+})
+
+
+
+
+function showSteps(directionResult, markerArray, stepDisplay, map, frome, to) {
+  // For each step, add the text to the step-by-step directions display.
+  let myRoute = directionResult.routes[0].legs[0];
+  console.log(myRoute)
+  for (let i = 0; i < myRoute.steps.length; i++) {
+    $("#step-by-step").append(i + 1 + ". " + myRoute.steps[i].instructions + "<br>");
+  }
 };
 
 function geocodeAddress(geocoder, resultsMap) {
@@ -154,6 +222,7 @@ function saveData() {
   mapDatabase.push({
     locationData: data
   });
+  messagewindow.open()
   infowindow.close();
 };
 function centerMap() {
@@ -173,7 +242,6 @@ lastFifty.on('child_added', function(snapshot){
     title: snapshot.val().locationData.address
   })
   markers.push(marker)
-  console.log(markers)
 
   addressInfo = new google.maps.InfoWindow();
   for (i = 0; i < markers.length; i++) {
@@ -184,6 +252,8 @@ lastFifty.on('child_added', function(snapshot){
         addressInfo.open(map, marker);
         map.setCenter(marker.getPosition());
         map.setZoom(13);
+        destination = thisData.title;
+        $("#to").text(destination);
       });
     }) (marker, thisData);
   }
