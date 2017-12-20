@@ -26,6 +26,11 @@
 		  src="https://code.jquery.com/jquery-3.2.1.js"
 		  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
 		  crossorigin="anonymous"></script>
+		<script 
+		  src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+		  integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" 
+		  crossorigin="anonymous"></script>
+  
 		<!-- Firebase -->
 		<script 
 		  src="https://www.gstatic.com/firebasejs/4.8.0/firebase.js"></script>
@@ -56,9 +61,13 @@
 <!-- container for whole page -->
 <div class="container-fluid">
 <!-- Navigation Bar -->
-	<nav class="navbar sticky-top navbar-toggleable-md">
-		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<a class="navbar-brand" href="#">Tacky Light Tracker</a>
+	<nav class="navbar navbar-light sticky-top navbar-toggleable-md">
+		<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+  		</button>
+		<a class="navbar-brand" href="#">Tacky Light Tracker</a>
+		
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">	
 			<ul class="navbar-nav mr-auto">
   				<li class="nav-item active">
     				<a class="nav-link " href="#"><i class="fas fa-home"></i><span class="sr-only">(current)</span></a>
@@ -104,11 +113,14 @@
     <div class="container-fluid">
 	<div class="row">
 		<!--WEATHER API-->
-		<div class="col-sm" id="weather"></div>
+		<div class="col-sm"></div>
+		<div class="col-sm text-center" id="weather"></div>
+		<div class="col-sm"></div>
 		<!-- SPOTIFY -->
 		<div class="col-sm" id="spotify">
 			<iframe src="https://open.spotify.com/embed?uri=spotify:user:spotify:playlist:37i9dQZF1DX0A8zVl7p82B&theme=white" width="300" height="80" frameborder="0" allowtransparency="true"></iframe>
-		</div>	
+		</div>
+		<div class="col-sm"></div>
     </div>
     <div class="row">
             <div class="col-sm text-center small align-self-end">©2017 John Blackwell, Brittany Gillespie, Olivia Garrett, Syed Shehzad</div>      
@@ -120,6 +132,6 @@
 <!-- Google Maps Call -->
 	<script async defer
 	    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBkUtokw3tHbQTwMkXpIapkw-us_Ln1RKE&callback=initMap">
-	    </script>	  
+	</script>	  
 </body>
 </html>
