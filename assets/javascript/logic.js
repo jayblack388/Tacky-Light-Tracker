@@ -25,7 +25,7 @@ const config = {
   let pos = {};
   let post = {};
   let originPos = {};
-  let firstFifty = mapDatabase.limitToFirst(50)
+  let lastFifty = mapDatabase.limitToLast(50)
   let richmond = {lat: 37.540, lng: -77.436};
 
   var origin;
@@ -78,19 +78,46 @@ function initMap() {
         // Browser doesn't support Geolocation
         handleLocationError(false, infoWindow, map.getCenter());
       }
+    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+                              'Error: The Geolocation service failed.' :
+                              'Error: Your browser doesn\'t support geolocation.');
+        infoWindow.open(map);
+        // If location is denied then zoom
+        map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 12,
+          center: richmond
+        });
+        lastFifty.on('child_added', function(snapshot){
 
-      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-          infoWindow.setPosition(pos);
-          infoWindow.setContent(browserHasGeolocation ?
-                                'Error: The Geolocation service failed.' :
-                                'Error: Your browser doesn\'t support geolocation.');
-          infoWindow.open(map);
+          post = {
+          lat: snapshot.val().locationData.lat,
+          lng: snapshot.val().locationData.lng
+          }
+          marker = new google.maps.Marker({
+            map: map,
+            position: post,
+            title: snapshot.val().locationData.address
+          })
+          markers.push(marker)
+          //console.log(markers)
 
-                  map = new google.maps.Map(document.getElementById('map'), {
-                    zoom: 15,
-                    center: richmond
-                  });
-        }  
+          addressInfo = new google.maps.InfoWindow();
+          for (i = 0; i < markers.length; i++) {
+            let thisData = markers[i];
+            (function (marker, thisData) {
+              google.maps.event.addListener(marker, "click", function (e) {
+                addressInfo.setContent("<div style= 'width:200px;min-height:40px'>" + thisData.title + "</div>");
+                addressInfo.open(map, marker);
+                map.setCenter(marker.getPosition());
+                map.setZoom(13);
+              });
+            }) (marker, thisData);
+          }
+
+        });
+      }  
 
     infowindow = new google.maps.InfoWindow({
           content: `  
@@ -201,7 +228,7 @@ function centerMap() {
   infoWindow.close();
   addressInfo.close();
 };
-firstFifty.on('child_added', function(snapshot){
+lastFifty.on('child_added', function(snapshot){
   post = {
   lat: snapshot.val().locationData.lat,
   lng: snapshot.val().locationData.lng
@@ -255,13 +282,13 @@ $.ajax({
 
     console.log("City Name: " + cityName + " | Temperature: " + temperature + " \xB0F");
 
-    var widgetTemp = $("<p>").html("Currently in " + cityName + ":" + "<br>" + temperature + " \xB0F");
+    var widgetTemp = $("<p>").html("Currently in " + cityName + ": " + temperature + " \xB0F");
+    var widgetConditions = $("<div>").html(widgetConditionsIcon);
 
-    var widgetConditions = $("<p>").html(widgetConditionsIcon + "<br>" + condition);
 
     weatherDiv.append(widgetTemp);
     weatherDiv.append(widgetConditions);
     weatherDiv.append(" " + condition)
 
-    $("#weather").prepend(weatherDiv);
+    $("#weather").html(weatherDiv);
   });
