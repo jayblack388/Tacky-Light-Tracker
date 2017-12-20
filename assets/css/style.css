@@ -64,7 +64,8 @@ body {
 }
 
 #mapHeight {
-	height: 300px;
+	min-height: 300px;
+	max-height: 600px;
 	padding:0;
 }
 
@@ -87,27 +88,28 @@ body {
 	color: #ffffff;
 }
 #directions {
-	background-color: #22525e;
+	background-color: #4ea6ba;
 	color: #e0e0e0;
     padding: 5px;
     text-align: center;
-    line-height: 30px;;
+    line-height: 25px;
 }
 #from {
-	background-color: #22525e;
+	background-color: #4ea6ba;
 	color: #e0e0e0;
 }
 #to {
-	background-color: #22525e;
+	background-color: #4ea6ba;
 	color: #e0e0e0;
 }
 #step-by-step {
-	background-color: #337c8e;
-	color: #e0e0e0;
+	background-color: #E5E3DF;
+	color: black;
 }
 #copyright {
     font-family: 'Josefin Slab', serif !important;
     padding-top:5px;
+    max-height: 300px;
 }
 
 @media screen and (max-width: 480px) {
