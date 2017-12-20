@@ -51,6 +51,9 @@ function initMap() {
 
     // Create a renderer for directions and bind it to the map.
     var directionsDisplay = new google.maps.DirectionsRenderer({map: map});
+
+    // Instantiate an info window to hold step text.
+    var stepDisplay = new google.maps.InfoWindow;
     
     marker = new google.maps.Marker({
       position: pos,
@@ -66,7 +69,7 @@ function initMap() {
             lng: position.coords.longitude
           };
           originPos = pos;
-          $('#from').text(originPos.lat.toString() + originPos.lng.toString())
+          $('#from').text("Your location: " + originPos.lat.toString() + originPos.lng.toString())
           infoWindow.setPosition(pos);
           infoWindow.setContent('Location found.');
           infoWindow.open(map);
@@ -151,9 +154,9 @@ function initMap() {
 function calculateAndDisplayRoute(directionsDisplay, directionsService,
     markerArray, stepDisplay, map) {
   // First, remove any existing markers from the map.
-  for (var i = 0; i < markerArray.length; i++) {
-    markerArray[i].setMap(null);
-  }
+  // for (var i = 0; i < markerArray.length; i++) {
+  //   markerArray[i].setMap(null);
+  // }
 
   // Retrieve the start and end locations and create a DirectionsRequest using
   // WALKING directions.
@@ -178,11 +181,21 @@ function calculateAndDisplayRoute(directionsDisplay, directionsService,
 }
 
 
+$('#getdirections').click(function() {
+  $("#step-by-step").empty();
+  calculateAndDisplayRoute();
+  showSteps();
+})
+
+
+
+
 function showSteps(directionResult, markerArray, stepDisplay, map, frome, to) {
   // For each step, add the text to the step-by-step directions display.
   var myRoute = directionResult.routes[0].legs[0];
+  console.log(myRoute)
   for (var i = 0; i < myRoute.steps.length; i++) {
-    $("#directions").append(i + 1 + ". " + response.routes[0].legs[0].steps[i].instructions + "<br>");
+    $("#step-by-step").append(i + 1 + ". " + myRoute.steps[i].instructions + "<br>");
   }
 }
 
@@ -239,7 +252,6 @@ lastFifty.on('child_added', function(snapshot){
     title: snapshot.val().locationData.address
   })
   markers.push(marker)
-  console.log(markers)
 
   addressInfo = new google.maps.InfoWindow();
   for (i = 0; i < markers.length; i++) {
@@ -251,7 +263,7 @@ lastFifty.on('child_added', function(snapshot){
         map.setCenter(marker.getPosition());
         map.setZoom(13);
         destination = thisData.title
-        console.log("ORIGIN: " + origin)
+        $('#to').text(destination);
       });
     }) (marker, thisData);
   }
