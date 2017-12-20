@@ -24,7 +24,7 @@ const config = {
   let geocoder;
   let pos = {};
   let post = {};
-  let firstFifty = mapDatabase.limitToFirst(50)
+  let lastFifty = mapDatabase.limitToLast(50)
   let richmond = {lat: 37.540, lng: -77.436};
 
 
@@ -75,7 +75,7 @@ function initMap() {
           zoom: 12,
           center: richmond
         });
-        firstFifty.on('child_added', function(snapshot){
+        lastFifty.on('child_added', function(snapshot){
 
           post = {
           lat: snapshot.val().locationData.lat,
@@ -162,7 +162,7 @@ function centerMap() {
   infoWindow.close();
   addressInfo.close();
 };
-firstFifty.on('child_added', function(snapshot){
+lastFifty.on('child_added', function(snapshot){
   post = {
   lat: snapshot.val().locationData.lat,
   lng: snapshot.val().locationData.lng
