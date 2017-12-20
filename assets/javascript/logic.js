@@ -214,9 +214,9 @@ $.ajax({
 
     console.log("City Name: " + cityName + " | Temperature: " + temperature + " \xB0F");
 
-    var widgetTemp = $("<p>").html("Currently in " + cityName + ":" + "<br>" + temperature + " \xB0F");
+    var widgetTemp = $("<p>").html("Currently in " + cityName + ": " + temperature + " \xB0F");
+    var widgetConditions = $("<div>").html(widgetConditionsIcon);
 
-    var widgetConditions = $("<p>").html(widgetConditionsIcon);
 
     weatherDiv.append(widgetTemp);
     weatherDiv.append(widgetConditions);

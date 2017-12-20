@@ -81,30 +81,39 @@
 	</div>
 
 <!-- MAIN SECTION -->
-	<div class="row">	
-		<div class="col-sm-12 col-md-6 float-left">
+<!-- 	<div class="row">	
+		<div class="col-sm-12 col-md-6 float-left"> -->
 			<div class="row">
 				<!-- MAP & GEOCODE -->
-				<div class="col-sm-12 col-md-12" id="mapHeight">
+				<div class="col-sm-6 col-md-6" id="mapHeight">
 					<div id="map"></div>
-					<div id="floating-panel col-sm-12 col-md-12">
-					    <input id="address" type="textbox" value="Richmond, VA">
-					    <input id="geosubmit" type="button" value="Find A New Location">
-					    <input id="center" type="button" onclick="centerMap()" value="Back to Center">
-					</div>
-					<div id="results"></div>
 				</div>
+			</div>	
+			<div class="row">	
+				<div class="col-sm-6 col-md-6" id="floating-panel">
+					<input id="address" type="textbox" value="Richmond, VA">
+					<input id="geosubmit" type="button" value="Find A New Location">
+					<input id="center" type="button" onclick="centerMap()" value="Back to Center">
+					</div>
+				<div id="results"></div>
 			</div>
 		</div>
-		<!-- SPOTIFY -->
-		<div class="col-sm-12 col-md-6 float-right" id="spotify">
-			<iframe src="https://open.spotify.com/embed?uri=spotify:user:spotify:playlist:37i9dQZF1DX0A8zVl7p82B&theme=white" width="300" height="80" frameborder="0" allowtransparency="true"></iframe>
-			<!--WEATHER API-->
-			<div class="col-sm-12 col-md-12" id="weather"></div>
-		</div>
-	</div>
+	</div>	
 </div> <!-- End of container -->
-
+<footer class="footer">
+    <div class="container-fluid">
+	<div class="row">
+		<!--WEATHER API-->
+		<div class="col-sm" id="weather"></div>
+		<!-- SPOTIFY -->
+		<div class="col-sm" id="spotify">
+			<iframe src="https://open.spotify.com/embed?uri=spotify:user:spotify:playlist:37i9dQZF1DX0A8zVl7p82B&theme=white" width="300" height="80" frameborder="0" allowtransparency="true"></iframe>
+		</div>	
+    </div>
+    <div class="row">
+            <div class="col-sm text-center small align-self-end">©2017 John Blackwell, Brittany Gillespie, Olivia Garrett, Syed Shehzad</div>      
+        </div>
+</footer>
 <!-- Javascript -->
 	<script 
 	  src="./assets/javascript/logic.js"></script>
