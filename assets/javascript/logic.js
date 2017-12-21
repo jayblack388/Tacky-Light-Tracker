@@ -60,7 +60,7 @@ function initMap() {
             lng: position.coords.longitude
           };
           originPos = pos;
-          $('#from').text("Your location: " + originPos.lat.toString() + originPos.lng.toString());
+          $('#from').text("Your location: " + originPos.lat.toString() + "\xB0 Latitude, " + originPos.lng.toString() + "\xB0 Longitude");
           infoWindow.setPosition(pos);
           infoWindow.setContent('Location found.');
           infoWindow.open(map);
