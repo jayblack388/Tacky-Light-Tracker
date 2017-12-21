@@ -138,6 +138,7 @@ body {
 
 	#map {
 		width: 95%;
+		min-height: 400px;
 	}
 
 	#directions {
@@ -154,6 +155,10 @@ body {
 	.jumbotron #display {
 		font-size:7vw;
 		margin-top:11vw;
+	}
+	#map {
+		width: 95%;
+		min-height: 300px;
 	}
 }
 
