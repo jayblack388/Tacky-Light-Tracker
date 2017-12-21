@@ -67,7 +67,7 @@ body {
 }
 
 #mapHeight {
-	min-height: 300px;
+	min-height: 600px;
 	padding:0;
 }
 
@@ -95,7 +95,7 @@ body {
     padding: 7px;
     text-align: center;
     line-height: 25px;
-    max-height: 300px;
+    max-height: 600px;
     overflow: scroll;
     overflow-x: hidden;
 }
