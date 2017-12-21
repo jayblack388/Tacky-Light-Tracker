@@ -354,9 +354,9 @@ lastFifty.on('child_added', function(snapshot){
                     $("#instructions").html("<p>Select all locations to visit</p>");
                     $("#directions").append("<p>End: " + end + "</p>");
                   } else {
-                    waypoints.push({location: marker.position});
+                    waypoints.push({location: marker.title});
                     //console.log(waypoints[2].location.toString())
-                    $("#directions").append("<p>WAYPOINTS: " + marker.position + "</p>");
+                    $("#directions").append("<p>WAYPOINTS: " + marker.title + "</p>");
                     $("#instructions").html("<p>Click generate tour after selecting all.</p>");
                   }
                   
