@@ -150,18 +150,21 @@ function initMap() {
       document.getElementById('generate').addEventListener('click', generateHandler);
       //$("#directions").prepend('<button id="revert">Revert</button>');
       //document.getElementById('revert').addEventListener('click', revertHandler);
-      $("#directions").prepend('<button id="reset">Reset</button>');
-      document.getElementById('reset').addEventListener('click', resetHandler);
     });
+
+    document.getElementById('reset').addEventListener('click', resetHandler);
+
 
     document.getElementById('getdirections').addEventListener('click', onChangeHandler);
 
     // Listen to click events.
     function onChangeHandler() {
       if (originPos == undefined) {
-        alert("Origin undefined.");
+        $("#warning").html("Origin undefined.");
+        setTimeout(function(){$("#warning").empty()}, 2000)
       } else if (destination == undefined) {
-        alert("You must select a destination by clicking the map's pins.");
+        $("#warning").html("You must select a destination by clicking the map's pins.");
+        setTimeout(function(){$("#warning").empty()}, 2000)
       }
       $("#step-by-step").empty();
       calculateAndDisplayRoute(directionsDisplay, directionsService, markerArray, stepDisplay, map);
@@ -285,7 +288,8 @@ function geocodeAddress(geocoder, resultsMap) {
               $('#formaddress').attr("value", address);
             });
           } else {
-            alert('Geocode was not successful for the following reason: ' + status);
+            $("#warning").html('Geocode was not successful for the following reason: ' + status);
+            setTimeout(function(){$("#warning").empty()}, 2000)
           }
           console.log(results)
           data = {
@@ -346,17 +350,17 @@ lastFifty.on('child_added', function(snapshot){
                   //var test = [];
                   //waypoints = [{location: "baltimore"}]
                   if (start == null) {
-                    start = marker.position;
+                    start = marker.title;
                     $("#instructions").html("<p>Select your tour's end point</p>");
                     $("#directions").append("<p>Start: " + start + "</p>");
                   } else if (end == null) {
-                    end = marker.position;
-                    $("#instructions").html("<p>Select all locations to visit</p>");
+                    end = marker.title;
+                    $("#instructions").html("<p>Select additional locations to visit</p>");
                     $("#directions").append("<p>End: " + end + "</p>");
                   } else {
                     waypoints.push({location: marker.title});
                     //console.log(waypoints[2].location.toString())
-                    $("#directions").append("<p>WAYPOINTS: " + marker.title + "</p>");
+                    $("#directions").append("<p>Additional Houses: " + marker.title + "</p>");
                     $("#instructions").html("<p>Click generate tour after selecting all.</p>");
                   }
                   
