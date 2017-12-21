@@ -91,7 +91,7 @@ body {
 
 #directions {
 	background-color: #4ea6ba;
-	color: #e0e0e0;
+	color: #ffffff;
     padding: 7px;
     text-align: center;
     line-height: 25px;
@@ -102,12 +102,12 @@ body {
 
 #from {
 	background-color: #4ea6ba;
-	color: #e0e0e0;
+	color: #ffffff;
 }
 
 #to {
 	background-color: #4ea6ba;
-	color: #e0e0e0;
+	color: #ffffff;
 }
 
 #step-by-step {
@@ -121,13 +121,6 @@ body {
     max-height: 300px;
 }
 
-/*@media screen and (max-width: 1114px) {
-
-	#map {
-		width: 97%;
-	}
-}*/
-
 @media screen and (max-width: 870px) {
 
 	.jumbotron {
@@ -139,6 +132,7 @@ body {
 		margin-top:11vw;
 	}
 }
+
 
 @media screen and (max-width: 560px) {
 
@@ -161,4 +155,21 @@ body {
 		font-size:7vw;
 		margin-top:11vw;
 	}
+}
+
+
+#instructions {
+	color: #ffffff;
+	font-size: 25px;
+	font-weight: bold;
+}
+
+.label {
+	text-decoration: underline;
+	margin: 0px;
+}
+
+button {
+	margin: 5px 10px;
+
 }

@@ -33,6 +33,16 @@ const config = {
   let directionsDisplay;
   let stepDisplay;
   let markerArray = [];
+  var pointToPointQuery;
+  var tourQuery;
+  var query;
+  var planner = false;
+  var id;
+  var start;
+  var end;
+  var waypoints = [];
+  var directionResult;
+
 
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
@@ -128,33 +138,91 @@ function initMap() {
     });
 
 
-    // Display the route between the initial start and end selections.
-    calculateAndDisplayRoute(
-      directionsDisplay, directionsService, markerArray, stepDisplay, map);
-    // Listen to change events from the start and end lists.
-    function onChangeHandler() {
-      calculateAndDisplayRoute(
-        directionsDisplay, directionsService, markerArray, stepDisplay, map);
-    };
+    $("#planner").click(function() {
+      $("#directions p").empty();
+      $("#directions #from").empty();
+      $("#directions #to").empty();
+      $("#step-by-step").empty();
+      $("#planner").remove();
+      $("#getdirections").remove();
+      planner = true;
+      $("#instructions").append("<p>Select multiple waypoints by clicking pins on the map.</p> <p>Select starting point.</p>");
+      $("#directions").prepend('<button id="generate">Generate Tacky Lights Tour!</button>');
+      document.getElementById('generate').addEventListener('click', generateHandler);
+      //$("#directions").prepend('<button id="revert">Revert</button>');
+      //document.getElementById('revert').addEventListener('click', revertHandler);
+    });
+
+    document.getElementById('reset').addEventListener('click', resetHandler);
+
+
     document.getElementById('getdirections').addEventListener('click', onChangeHandler);
-    //document.getElementById('end').addEventListener('change', onChangeHandler);
 
+    // Listen to click events.
+    function onChangeHandler() {
+      if (originPos == undefined) {
+        $("#warning").html("Origin undefined.");
+        setTimeout(function(){$("#warning").empty()}, 2000)
+      } else if (destination == undefined) {
+        $("#warning").html("You must select a destination by clicking the map's pins.");
+        setTimeout(function(){$("#warning").empty()}, 2000)
+      }
+      $("#step-by-step").empty();
+      calculateAndDisplayRoute(directionsDisplay, directionsService, markerArray, stepDisplay, map);
+      showSteps();
+    };
+    function generateHandler() {
+      console.log("Generating your tour");
+      $("#directions").append("");
+      calculateAndDisplayRoute(directionsDisplay, directionsService, markerArray, stepDisplay, map);
+      //console.log(response);
+      //console.log(directionResult);
+      //showSteps(response);
+    };
+    // function revertHandler() {
+    //   $("#instructions").append("REVERT");
+    //   planner = false;
+    // }
+    function resetHandler() {
+      $("#step-by-step").empty();
+      $("#directions p").remove();
+      $("#instructions").html("<p>Select a starting point</p>");
+      start = null;
+      end = null;
+      waypoints = [];
+      originPos = null;
+      destination = null;
+    }
 };
-
-function calculateAndDisplayRoute(directionsDisplay, directionsService,
-    markerArray, stepDisplay, map) {
+function calculateAndDisplayRoute(directionsDisplay, directionsService, markerArray, stepDisplay, map) {
   // First, remove any existing markers from the map.
   // for (var i = 0; i < markerArray.length; i++) {
   //   markerArray[i].setMap(null);
   // }
 
-  // Retrieve the start and end locations and create a DirectionsRequest using
-  // WALKING directions.
-  directionsService.route({
+  pointToPointQuery = {
     origin: originPos,
     destination: destination,
     travelMode: 'DRIVING'
-  }, function(response, status) {
+  }
+
+  tourQuery = {
+    origin: start,
+    destination: end,
+    waypoints: waypoints,
+    optimizeWaypoints: true,
+    travelMode: 'DRIVING'
+  }
+
+  if (planner == true) {
+    query = tourQuery;
+  } else if (planner == false) {
+    query = pointToPointQuery;
+  }
+  console.log(query);
+  // Retrieve the start and end locations and create a DirectionsRequest using
+  // WALKING directions.
+  directionsService.route(query, function(response, status) {
     // Route the directions and pass the response to a function to create
     // markers for each step.
     if (status === 'OK') {
@@ -163,6 +231,8 @@ function calculateAndDisplayRoute(directionsDisplay, directionsService,
       directionsDisplay.setDirections(response);
       showSteps(response, markerArray, stepDisplay, map);
       console.log(response)
+      //directionResult = response;
+
 
     } else {
       window.alert('Directions request failed due to ' + status);
@@ -171,21 +241,25 @@ function calculateAndDisplayRoute(directionsDisplay, directionsService,
 };
 
 
-$('#getdirections').click(function() {
-  $("#step-by-step").empty();
-  calculateAndDisplayRoute();
-  showSteps();
-})
+// $('#getdirections').click(function() {
+//   $("#step-by-step").empty();
+//   calculateAndDisplayRoute();
+//   showSteps();
+// })
 
 
 
 
 function showSteps(directionResult, markerArray, stepDisplay, map, frome, to) {
   // For each step, add the text to the step-by-step directions display.
-  let myRoute = directionResult.routes[0].legs[0];
+  let myRoute = directionResult;
   console.log(myRoute)
-  for (let i = 0; i < myRoute.steps.length; i++) {
-    $("#step-by-step").append(i + 1 + ". " + myRoute.steps[i].instructions + "<br>");
+  for (let j = 0; j < myRoute.routes[0].legs.length; j++) {
+    $("#step-by-step").append("<p><b>From " + myRoute.routes[0].legs[j].start_address + " to " + myRoute.routes[0].legs[j].end_address + ": </b></p>");
+    for (let k = 0; k < myRoute.routes[0].legs[j].steps.length; k++) {
+      $("#step-by-step").append("<p>" + (k + 1).toString() + ". " + myRoute.routes[0].legs[j].steps[k].instructions + "</p>");
+    }
+
   }
 };
 
@@ -206,7 +280,8 @@ function geocodeAddress(geocoder, resultsMap) {
               $('#formaddress').attr("value", address);
             });
           } else {
-            alert('Geocode was not successful for the following reason: ' + status);
+            $("#warning").html('Geocode was not successful for the following reason: ' + status);
+            setTimeout(function(){$("#warning").empty()}, 2000)
           }
           console.log(results)
           data = {
@@ -239,7 +314,8 @@ lastFifty.on('child_added', function(snapshot){
   marker = new google.maps.Marker({
     map: map,
     position: post,
-    title: snapshot.val().locationData.address
+    title: snapshot.val().locationData.address,
+    id: snapshot.val().locationData.id
   })
   markers.push(marker)
 
@@ -252,8 +328,40 @@ lastFifty.on('child_added', function(snapshot){
         addressInfo.open(map, marker);
         map.setCenter(marker.getPosition());
         map.setZoom(13);
-        destination = thisData.title;
-        $("#to").text(destination);
+        if (planner == false) {
+          destination = thisData.title;
+          $("#to").text(destination);          
+        }
+        id = thisData.id;
+        console.log(id);
+        console.log(planner);
+
+                if (planner == true && id == 2) {
+                  //waypoints.push(marker);
+                  //$("#directions").append(marker.title);
+                  //var test = [];
+                  //waypoints = [{location: "baltimore"}]
+                  if (start == null) {
+                    start = marker.title;
+                    $("#instructions").html("<p>Select your tour's end point</p>");
+                    $("#directions").append("<p>Start: " + start + "</p>");
+                  } else if (end == null) {
+                    end = marker.title;
+                    $("#instructions").html("<p>Select additional locations to visit</p>");
+                    $("#directions").append("<p>End: " + end + "</p>");
+                  } else {
+                    waypoints.push({location: marker.title});
+                    //console.log(waypoints[2].location.toString())
+                    $("#directions").append("<p>Additional Houses: " + marker.title + "</p>");
+                    $("#instructions").html("<p>Click generate tour after selecting all.</p>");
+                  }
+                  
+                  //waypoints.push(marker.position + "|");
+
+                  //apiInput = waypoints;
+                  //apiInput.push({"location": marker.title, "stopover": true});
+                  //$("#directions").append(apiInput + "<br><br>");
+                }
       });
     }) (marker, thisData);
   }
