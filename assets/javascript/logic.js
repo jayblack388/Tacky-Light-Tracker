@@ -169,7 +169,7 @@ function initMap() {
     };
     function generateHandler() {
       console.log("Generating your tour");
-      $("#directions").append("CLICKED");
+      $("#directions").append("Loading");
       calculateAndDisplayRoute(directionsDisplay, directionsService, markerArray, stepDisplay, map);
       //console.log(response);
       //console.log(directionResult);
@@ -346,17 +346,17 @@ lastFifty.on('child_added', function(snapshot){
                   //var test = [];
                   //waypoints = [{location: "baltimore"}]
                   if (start == null) {
-                    start = marker.position;
+                    start = marker.title;
                     $("#instructions").html("<p>Select your tour's end point.</p>");
                     $("#directions").append("<p>START: " + start + "</p>");
                   } else if (end == null) {
-                    end = marker.position;
+                    end = marker.title;
                     $("#instructions").html("<p>Select all locations to visit.</p>");
                     $("#directions").append("<p>END: " + end + "</p>");
                   } else {
-                    waypoints.push({location: marker.position});
+                    waypoints.push({location: marker.title});
                     //console.log(waypoints[2].location.toString())
-                    $("#directions").append("<p>WAYPOINTS: " + marker.position + "</p>");
+                    $("#directions").append("<p>WAYPOINTS: " + marker.title + "</p>");
                     $("#instructions").html("<p>Click generate tour after selecting all.</p>");
                   }
                   
