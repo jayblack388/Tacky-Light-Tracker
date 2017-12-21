@@ -169,7 +169,7 @@ function initMap() {
     };
     function generateHandler() {
       console.log("Generating your tour");
-      $("#directions").append("CLICKED");
+      $("#directions").append("");
       calculateAndDisplayRoute(directionsDisplay, directionsService, markerArray, stepDisplay, map);
       //console.log(response);
       //console.log(directionResult);
@@ -182,7 +182,7 @@ function initMap() {
     function resetHandler() {
       $("#step-by-step").empty();
       $("#directions p").remove();
-      $("#instructions").html("<p>Data is reset. Select starting point.</p>");
+      $("#instructions").html("<p>Select a starting point</p>");
       start = null;
       end = null;
       waypoints = [];
@@ -347,12 +347,12 @@ lastFifty.on('child_added', function(snapshot){
                   //waypoints = [{location: "baltimore"}]
                   if (start == null) {
                     start = marker.position;
-                    $("#instructions").html("<p>Select your tour's end point.</p>");
-                    $("#directions").append("<p>START: " + start + "</p>");
+                    $("#instructions").html("<p>Select your tour's end point</p>");
+                    $("#directions").append("<p>Start: " + start + "</p>");
                   } else if (end == null) {
                     end = marker.position;
-                    $("#instructions").html("<p>Select all locations to visit.</p>");
-                    $("#directions").append("<p>END: " + end + "</p>");
+                    $("#instructions").html("<p>Select all locations to visit</p>");
+                    $("#directions").append("<p>End: " + end + "</p>");
                   } else {
                     waypoints.push({location: marker.position});
                     //console.log(waypoints[2].location.toString())
