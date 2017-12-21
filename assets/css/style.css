@@ -2,6 +2,7 @@ html, body {
 	height: 100%;
 	margin: 0;
 	padding: 0;
+	overflow-x: hidden;
 }
 
 body {
@@ -12,6 +13,7 @@ body {
 .container-fluid {
 	padding:0;
 }
+
 .jumbotron {
 	background: url("./images/christmaslights.jpg")
 	no-repeat;
@@ -60,23 +62,22 @@ body {
 
 #map {
 	height: 100%;
-	width: 100%;
+	width: 98%;
+	margin-left: 15px;
 }
 
 #mapHeight {
 	min-height: 300px;
-	max-height: 600px;
 	padding:0;
 }
 
 #floating-panel {
     background-color: #22525e;
-    padding: 5px;
+    padding-top: 10px;
     text-align: center;
     font-family: 'Josefin Slab', serif !important;
     line-height: 30px;
 }
-
 
 .footer {
 	padding:15px;
@@ -87,32 +88,71 @@ body {
 	font-size: 18px;
 	color: #ffffff;
 }
+
 #directions {
 	background-color: #4ea6ba;
 	color: #e0e0e0;
-    padding: 5px;
+    padding: 7px;
     text-align: center;
     line-height: 25px;
+    max-height: 300px;
+    overflow: scroll;
+    overflow-x: hidden;
 }
+
 #from {
 	background-color: #4ea6ba;
 	color: #e0e0e0;
 }
+
 #to {
 	background-color: #4ea6ba;
 	color: #e0e0e0;
 }
+
 #step-by-step {
 	background-color: #E5E3DF;
 	color: black;
 }
+
 #copyright {
     font-family: 'Josefin Slab', serif !important;
     padding-top:5px;
     max-height: 300px;
 }
 
+/*@media screen and (max-width: 1114px) {
+
+	#map {
+		width: 97%;
+	}
+}*/
+
+@media screen and (max-width: 870px) {
+
+	.jumbotron {
+		height: 40vw;
+	}
+
+	.jumbotron #display {
+		font-size:6vw;
+		margin-top:11vw;
+	}
+}
+
+@media screen and (max-width: 560px) {
+
+	#map {
+		width: 95%;
+	}
+
+	#directions {
+		margin-left: 15px;
+	}
+}
+
 @media screen and (max-width: 480px) {
+
 	.jumbotron {
 		height: 40vw;
 	}
