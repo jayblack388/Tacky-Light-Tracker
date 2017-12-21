@@ -33,7 +33,6 @@ const config = {
   let directionsDisplay;
   let stepDisplay;
   let markerArray = [];
-
   var pointToPointQuery;
   var tourQuery;
   var query;
@@ -43,6 +42,7 @@ const config = {
   var end;
   var waypoints = [];
   var directionResult;
+
 
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
@@ -70,7 +70,7 @@ function initMap() {
             lng: position.coords.longitude
           };
           originPos = pos;
-          $('#from').text("Your location: " + originPos.lat.toString() + originPos.lng.toString());
+          $('#from').text("Your location: " + originPos.lat.toString() + "\xB0 Latitude, " + originPos.lng.toString() + "\xB0 Longitude");
           infoWindow.setPosition(pos);
           infoWindow.setContent('Location found.');
           infoWindow.open(map);
@@ -137,6 +137,7 @@ function initMap() {
       content: `<div id="message">Location saved</div>`
     });
 
+
     $("#planner").click(function() {
       $("#directions p").empty();
       $("#directions #from").empty();
@@ -192,22 +193,12 @@ function initMap() {
       originPos = null;
       destination = null;
     }
-
-
-    
-    
-    
-
-    //document.getElementById('end').addEventListener('change', onChangeHandler);
-
 };
-
 function calculateAndDisplayRoute(directionsDisplay, directionsService, markerArray, stepDisplay, map) {
   // First, remove any existing markers from the map.
   // for (var i = 0; i < markerArray.length; i++) {
   //   markerArray[i].setMap(null);
   // }
-
 
   pointToPointQuery = {
     origin: originPos,
@@ -242,12 +233,12 @@ function calculateAndDisplayRoute(directionsDisplay, directionsService, markerAr
       console.log(response)
       //directionResult = response;
 
+
     } else {
       window.alert('Directions request failed due to ' + status);
     }
   });
 };
-
 
 
 // $('#getdirections').click(function() {
@@ -268,6 +259,7 @@ function showSteps(directionResult, markerArray, stepDisplay, map, frome, to) {
     for (let k = 0; k < myRoute.routes[0].legs[j].steps.length; k++) {
       $("#step-by-step").append("<p>" + (k + 1).toString() + ". " + myRoute.routes[0].legs[j].steps[k].instructions + "</p>");
     }
+
   }
 };
 

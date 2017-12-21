@@ -133,6 +133,7 @@ body {
 	}
 }
 
+
 @media screen and (max-width: 560px) {
 
 	#map {
@@ -170,4 +171,5 @@ body {
 
 button {
 	margin: 5px 10px;
+
 }
