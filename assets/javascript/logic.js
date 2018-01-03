@@ -93,7 +93,7 @@ function initMap() {
           zoom: 12,
           center: richmond
         });
-        lastFifty.on('child_added', function(snapshot){
+        mapDatabase.on('child_added', function(snapshot){
 
           post = {
           lat: snapshot.val().locationData.lat,
@@ -119,8 +119,8 @@ function initMap() {
               });
             }) (marker, thisData);
           }
-
         });
+        
       }  
 
     infowindow = new google.maps.InfoWindow({
@@ -192,6 +192,7 @@ function initMap() {
       waypoints = [];
       originPos = null;
       destination = null;
+      map.directions.clear();
     }
 };
 function calculateAndDisplayRoute(directionsDisplay, directionsService, markerArray, stepDisplay, map) {
@@ -301,12 +302,12 @@ function saveData() {
   infowindow.close();
 };
 function centerMap() {
-  map.setCenter(richmond);
+  map.setCenter(originPos);
   map.setZoom(12);
   infoWindow.close();
   addressInfo.close();
 };
-lastFifty.on('child_added', function(snapshot){
+mapDatabase.on('child_added', function(snapshot){
   post = {
   lat: snapshot.val().locationData.lat,
   lng: snapshot.val().locationData.lng
@@ -327,7 +328,7 @@ lastFifty.on('child_added', function(snapshot){
         addressInfo.setContent("<div style= 'width:200px;min-height:40px'>" + thisData.title + "</div>");
         addressInfo.open(map, marker);
         map.setCenter(marker.getPosition());
-        map.setZoom(13);
+        map.setZoom(11);
         if (planner == false) {
           destination = thisData.title;
           $("#to").text(destination);          
